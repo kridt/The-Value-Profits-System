@@ -20,7 +20,7 @@ export default function Home() {
           , <span className="text-gradient">salg</span> og{" "}
           <span className="text-gradient">gamblede sidehustles</span> –<br />
           her er en seriøs metode, der lærer dig at udnytte{" "}
-          <span className="text-gradient">fejl i sportsmarkedet</span>
+          <span className="text-gradient">fejl i sportsmarkedet </span>
           med fuld kontrol og dokumenteret profit.
         </p>
         <p className="text-md text-gray-500">
