@@ -1,0 +1,9 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-gradient {
+  @apply bg-gradient-to-r from-gradientGreenStart to-gradientGreenEnd bg-clip-text text-transparent animate-gradientX;
+  background-size: 200% 200%;
+}
