@@ -33,6 +33,14 @@ export default function Home() {
         </div>
         <Testimonials />
         <FAQ />
+        <iframe
+          id="testimonialto-carousel-value-profits-system---gratis-tag-all-dark"
+          src="https://embed-v2.testimonial.to/carousel/all/value-profits-system---gratis?theme=dark&autoplay=on&showmore=off&one-row=on&same-height=off&tag=all&arrowColor=9BA9B4&column-scale=0&cc=off"
+          frameborder="0"
+          scrolling="no"
+          width="100%"
+          height={"600px"}
+        ></iframe>
       </div>
     </div>
   );
