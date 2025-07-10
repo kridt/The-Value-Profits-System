@@ -4,6 +4,7 @@ import VideoGate from "../components/VideoGate";
 import Testimonials from "../components/Testimonials";
 import FAQ from "../components/FAQAccordion";
 import ParticlesBackground from "../ParticlesBackground";
+import ImageRow from "../components/ImageRow";
 
 export default function Home() {
   return (
@@ -41,6 +42,7 @@ export default function Home() {
           width="100%"
           height={"600px"}
         ></iframe>
+        <ImageRow />
       </div>
     </div>
   );
