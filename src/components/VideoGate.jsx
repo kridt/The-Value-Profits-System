@@ -106,7 +106,7 @@ const VideoGate = () => {
           {gateTriggered && (
             <form
               onSubmit={handleSubmit}
-              className="w-full max-w-md space-y-4 bg-white p-6 rounded-lg shadow-md text-black"
+              className="w-full max-w-md space-y-4 bg-white p-6 rounded-lg shadow-md text-black relative bottom-60 z-20"
             >
               <h2 className="text-xl font-semibold mb-2">
                 Udfyld for at få adgang til videoen:

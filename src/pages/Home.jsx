@@ -12,15 +12,16 @@ export default function Home() {
       <ParticlesBackground />
       <div className="z-10 max-w-3xl text-center space-y-6">
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-white">
-          Tjen <span className="text-gradient">+200.000 kr. skattefrit</span>
+          Se hvordan du kan tjene{" "}
+          <span className="text-gradient">+200.000 kr. skattefrit</span>
           <br />
           på 12 måneder.
         </h1>
         <p className="text-lg text-gray-300">
-          For dig, der er træt af <span className="text-gradient">content</span>
-          , <span className="text-gradient">salg</span> og{" "}
-          <span className="text-gradient">gamblede sidehustles</span> –<br />
-          her er en seriøs metode, der lærer dig at udnytte{" "}
+          Uden <span className="text-gradient">content </span>
+          eller <span className="text-gradient">salg</span>
+          <br />
+          Her er en seriøs metode, der lærer dig at udnytte{" "}
           <span className="text-gradient">fejl i sportsmarkedet </span>
           med fuld kontrol og dokumenteret profit.
         </p>
