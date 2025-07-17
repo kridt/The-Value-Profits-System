@@ -1,5 +1,6 @@
 // src/pages/Home.jsx
-import React from "react";
+import React, { useState } from "react";
+import CookieConsent from "../components/CookieConsent";
 import VideoGate from "../components/VideoGate";
 import Testimonials from "../components/Testimonials";
 import FAQ from "../components/FAQAccordion";
@@ -7,8 +8,11 @@ import ParticlesBackground from "../ParticlesBackground";
 import ImageRow from "../components/ImageRow";
 
 export default function Home() {
+  const [forceConsent, setForceConsent] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-black text-white relative overflow-hidden">
+      <CookieConsent forceOpen={forceConsent} />
       <ParticlesBackground />
       <div className="z-10 max-w-3xl text-center space-y-6">
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-white">
@@ -38,13 +42,35 @@ export default function Home() {
         <iframe
           id="testimonialto-carousel-value-profits-system---gratis-tag-all-dark"
           src="https://embed-v2.testimonial.to/carousel/all/value-profits-system---gratis?theme=dark&autoplay=on&showmore=off&one-row=on&same-height=off&tag=all&arrowColor=9BA9B4&column-scale=0&cc=off"
-          frameborder="0"
+          frameBorder="0"
           scrolling="no"
           width="100%"
           height={"600px"}
         ></iframe>
         <ImageRow />
       </div>
+      <footer
+        style={{
+          textAlign: "center",
+          marginTop: "4rem",
+          paddingBottom: "2rem",
+          zIndex: 9999,
+        }}
+      >
+        <button
+          onClick={() => setForceConsent(true)}
+          style={{
+            background: "none",
+            border: "none",
+            textDecoration: "underline",
+            color: "#888",
+            cursor: "pointer",
+            fontSize: "0.9rem",
+          }}
+        >
+          Ændr dine cookie-præferencer
+        </button>
+      </footer>
     </div>
   );
 }

@@ -5,7 +5,7 @@ const faqData = [
   {
     question: "Hvordan fungerer jeres garanti?",
     answer:
-      "Hvis du følger systemet og ikke tjener penge inden for 90 dage, får du alle pengene tilbage.",
+      "Vi tilbyder en resultatgaranti. Hvis du følger hele systemet og ikke tjener penge, får du alle pengene tilbage – så har vi arbejdet gratis.",
   },
   {
     question: "Hvornår lukker tilmeldingen?",
@@ -14,26 +14,37 @@ const faqData = [
   },
   {
     question: "Skal jeg have erfaring for at kunne være med?",
-    answer: "Nej, det er bygget til begyndere. Du bliver guidet trin for trin.",
+    answer:
+      "Overhovedet ikke. Systemet er bygget til både begyndere og øvede. Du bliver guidet trin for trin, med personlig hjælp hele vejen.",
   },
   {
     question: "Hvor hurtigt kan jeg komme i gang?",
     answer:
-      "Med det samme. Når du bliver godkendt, får du adgang til hele systemet + personlig onboarding.",
+      "Typisk samme dag. Når du får adgang, modtager du onboarding, værktøjer, dine første VP bets og adgang til community. Du er i gang hurtigere end du tror.",
   },
   {
     question: "Hvorfor deler I ikke bare gratis VP bets ud?",
     answer:
-      "Fordi vi fokuserer 100% på at dem som skal tage vores bets, tjener penge. Gratis bets ødelægger værdien.",
+      "Fordi systemet kun virker, hvis du forstår og bruger det korrekt. Gratis bets tiltrækker de forkerte – og fjerner værdien for dem, der gør det seriøst.",
   },
   {
     question: "Er det her bare gambling?",
     answer:
-      "Nej, det er matematiske strategier med dokumenteret positiv forventet værdi.",
+      "Nej. Det er ikke gambling – det er systematisk udnyttelse af markedsfejl baseret på statistik, strategi og +EV. Vi spiller ikke for sjov.",
   },
   {
     question: "Kan jeg betale i rater?",
     answer: "Ja! Du kan dele betalingen op, så det passer til din økonomi.",
+  },
+  {
+    question: "Hvad hvis jeg ikke har så mange penge at starte med?",
+    answer:
+      "Det er helt fint. Du kan starte med en lille bankroll og bygge den op over tid. Det vigtigste er, at du følger systemet disciplineret.",
+  },
+  {
+    question: "Hvorfor er det skattefrit?",
+    answer:
+      "Fordi gevinster hos danske, licenserede bookmakere er skattefrie. Du spiller med egne penge og hæver direkte til din konto – uden skat eller moms.",
   },
 ];
 
