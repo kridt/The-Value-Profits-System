@@ -74,14 +74,6 @@ const VideoGate = () => {
               className="w-full h-full rounded-lg shadow-md"
             ></iframe>
           </div>
-          <a
-            href="https://calendly.com/vpsystem1/30min?month=2025-06"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg transition duration-200"
-          >
-            Book din samtale
-          </a>
         </>
       ) : (
         <>

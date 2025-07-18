@@ -16,7 +16,7 @@ export default function Checkout() {
         <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
           <h2 className="text-xl font-semibold mb-4">Gå til betaling</h2>
           <a
-            href="https://xxeypq-0g.myshopify.com/checkouts/cn/Z2NwLWV1cm9wZS13ZXN0MTowMUpaTkhaNDJNSlFaTjM2MTlNQlhCOFBHWQ?preview_theme_id=184526438730"
+            href="https://value-profit-systems.myshopify.com/checkouts/cn/hWN0lVKWkZO6UQDqVODDvAzj?cart_link_id=mNcLM5aZ&channel=buy_button&preview_theme_id=184526438730"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105"

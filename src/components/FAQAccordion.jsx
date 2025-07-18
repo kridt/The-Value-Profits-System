@@ -8,11 +8,6 @@ const faqData = [
       "Vi tilbyder en resultatgaranti. Hvis du følger hele systemet og ikke tjener penge, får du alle pengene tilbage – så har vi arbejdet gratis.",
   },
   {
-    question: "Hvornår lukker tilmeldingen?",
-    answer:
-      "Når de 10–15 pladser er taget – eller senest 1. juli. Derefter stiger prisen.",
-  },
-  {
     question: "Skal jeg have erfaring for at kunne være med?",
     answer:
       "Overhovedet ikke. Systemet er bygget til både begyndere og øvede. Du bliver guidet trin for trin, med personlig hjælp hele vejen.",

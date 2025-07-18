@@ -14,13 +14,15 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-black text-white relative overflow-hidden">
       <CookieConsent forceOpen={forceConsent} />
       <ParticlesBackground />
-      <div className="z-10 max-w-3xl text-center space-y-6">
+
+      <div className="z-10 w-full max-w-[95%] lg:max-w-[95%] mx-auto text-center space-y-6">
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-white">
           Se hvordan du kan tjene{" "}
           <span className="text-gradient">+200.000 kr. skattefrit</span>
           <br />
           på 12 måneder.
         </h1>
+
         <p className="text-lg text-gray-300">
           Uden <span className="text-gradient">content </span>
           eller <span className="text-gradient">salg</span>
@@ -29,16 +31,20 @@ export default function Home() {
           <span className="text-gradient">fejl i sportsmarkedet </span>
           med fuld kontrol og dokumenteret profit.
         </p>
+
         <p className="text-md text-gray-500">
           Hvordan mit team og jeg hjælper personer som dig med at tjene mellem
           <span className="text-gradient"> 10.000 og 100.000 kr.</span> om
           måneden på <span className="text-gradient">sportsbetting</span>.
         </p>
+
         <div className="w-full aspect-video">
           <VideoGate />
         </div>
+
         <Testimonials />
         <FAQ />
+
         <iframe
           id="testimonialto-carousel-value-profits-system---gratis-tag-all-dark"
           src="https://embed-v2.testimonial.to/carousel/all/value-profits-system---gratis?theme=dark&autoplay=on&showmore=off&one-row=on&same-height=off&tag=all&arrowColor=9BA9B4&column-scale=0&cc=off"
@@ -47,8 +53,10 @@ export default function Home() {
           width="100%"
           height={"600px"}
         ></iframe>
+
         <ImageRow />
       </div>
+
       <footer
         style={{
           textAlign: "center",
