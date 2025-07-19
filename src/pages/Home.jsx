@@ -17,10 +17,9 @@ export default function Home() {
 
       <div className="z-10 w-full max-w-[95%] lg:max-w-[95%] mx-auto text-center space-y-6">
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-white">
-          Se hvordan du kan tjene{" "}
-          <span className="text-gradient">+200.000 kr. skattefrit</span>
+          Tjen <span className="text-gradient">+200.000 kr. skattefrit</span>
           <br />
-          på 12 måneder.
+          12 måneder ved at udnytte fejl i markedet
         </h1>
 
         <p className="text-lg text-gray-300">
