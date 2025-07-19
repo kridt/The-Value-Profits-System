@@ -19,7 +19,7 @@ export default function Home() {
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-white">
           Tjen <span className="text-gradient">+200.000 kr. skattefrit</span>
           <br />
-          12 måneder ved at udnytte fejl i markedet
+          på 12 måneder ved at udnytte fejl i markedet
         </h1>
 
         <p className="text-lg text-gray-300">
