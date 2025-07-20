@@ -1,156 +1,202 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 export default function BetList() {
   const [bets, setBets] = useState([]);
-  const [stats, setStats] = useState(null);
+  const [stake, setStake] = useState(500);
+  const [bankroll, setBankroll] = useState(10000);
+  const [tickerIndex, setTickerIndex] = useState(0);
+
+  const statsList = [
+    () => `Total Bets: ${bets.length}`,
+    () =>
+      `Winrate: ${
+        Math.round(
+          (bets.filter((b) => b.status === "Vundet").length / bets.length) * 100
+        ) || 0
+      }%`,
+    () => `Vundne: ${bets.filter((b) => b.status === "Vundet").length}`,
+    () => `Tabte: ${bets.filter((b) => b.status === "Tabt").length}`,
+    () => `Push: ${bets.filter((b) => b.status === "Push").length}`,
+    () =>
+      `Gns. Odds: ${(
+        bets.reduce((acc, b) => acc + parseFloat(b.odds.replace(",", ".")), 0) /
+        (bets.length || 1)
+      ).toFixed(2)}`,
+    () =>
+      `Gns. Unit: ${(
+        bets.reduce(
+          (acc, b) => acc + parseFloat(b["unit "].replace(",", ".")),
+          0
+        ) / (bets.length || 1)
+      ).toFixed(2)}`,
+  ];
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_SHEET_URL)
+      .get(
+        "https://opensheet.elk.sh/1hKzN810Lt4tl73O9FQ46Zj9689Bj8W2qeQ2aUUINH84/Juli"
+      )
       .then((res) => {
-        const rows = res.data;
+        const filtered = res.data
+          .filter((row) => parseFloat(row["antal bets"]) > 0)
+          .sort((a, b) => {
+            const [da, ma, ya] = a.dato.split("/").map(Number);
+            const [db, mb, yb] = b.dato.split("/").map(Number);
+            return new Date(yb, mb - 1, db) - new Date(ya, ma - 1, da);
+          });
 
-        // Find statistik-rækken
-        const statRow = rows.find(
-          (row) =>
-            row["Start Balance"]?.includes("kr") &&
-            row["Profit"]?.includes("kr") &&
-            row["ROI %"]?.includes("%")
-        );
-
-        // Træk statistikdata ud
-        const statObj = {
-          startBalance: res.data[0]["Start Balance"],
-          expected: statRow["Forventet profit"],
-          profit: statRow["Profit"],
-          roi: statRow["ROI %"],
-          count: statRow["Antal bets"],
-        };
-
-        // Filtrér og sorter bet-rækker
-        const filtered = rows.filter((row) =>
-          row["Start Balance"]?.match(/^\d{2}\/\d{2}\/\d{4}$/)
-        );
-
-        const sorted = filtered.sort((a, b) => {
-          const parseDate = (d) => {
-            const [day, month, year] = d.split("/");
-            return new Date(`${year}-${month}-${day}`);
-          };
-          return parseDate(b["Start Balance"]) - parseDate(a["Start Balance"]);
-        });
-
-        setStats(statObj);
-        setBets(sorted);
+        setBets(filtered);
       })
-      .catch((err) => console.error("Fejl ved hentning af data:", err));
+      .catch((err) => console.error("Fejl:", err));
   }, []);
 
-  const getStatusColor = (status) => {
-    if (status === "Vundet") return "bg-green-600/20 border-green-600";
-    if (status === "Tabt") return "bg-red-600/20 border-red-600";
-    if (status === "Push") return "bg-yellow-600/20 border-yellow-600";
-    return "bg-zinc-700/50 border-zinc-500";
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % statsList.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [bets]);
+
+  function unitCalculater(bankroll) {
+    setBankroll(bankroll);
+    setStake(Math.round(bankroll * 0.05));
+  }
+  function beregnSimuleretSaldo() {
+    return bets.reduce((acc, bet) => {
+      const odds = parseFloat(bet.odds.replace(",", "."));
+      const unit = parseFloat(bet["unit "].replace(",", "."));
+      const status = bet.status;
+      const indsats = stake * unit;
+
+      if (status === "Vundet") {
+        return acc + (odds * indsats - indsats); // læg profit til
+      } else if (status === "Tabt") {
+        return acc - indsats; // træk indsats fra
+      } else {
+        return acc; // Push = 0
+      }
+    }, bankroll); // starter på din bankroll
+  }
+
+  function formatKr(amount) {
+    return new Intl.NumberFormat("da-DK", {
+      style: "currency",
+      currency: "DKK",
+      minimumFractionDigits: 0,
+    }).format(amount);
+  }
 
   return (
-    <div className="p-6 min-h-screen bg-zinc-900 text-white">
-      <h2 className="text-4xl font-extrabold mb-8 text-center tracking-tight">
-        Juni måneds bets
-      </h2>
+    <div className="min-h-screen bg-[#071B26] text-white font-mono p-6">
+      {/* TICKER */}
+      <div className="mb-10 w-full overflow-hidden h-10 bg-[#0D2C3C] rounded-xl border border-[#1D9FB8]/40 flex items-center justify-center">
+        <motion.p
+          key={tickerIndex}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -20, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-lg text-[#59D3E6] font-bold tracking-widest"
+        >
+          {statsList[tickerIndex]()}
+        </motion.p>
+      </div>
 
-      {/* Statistik */}
-      {stats && (
-        <div className="bg-zinc-800 p-6 rounded-lg mb-10 grid grid-cols-2 md:grid-cols-5 gap-6 text-center text-sm font-medium shadow-md">
-          <div>
-            <div className="text-zinc-400 text-xs uppercase mb-1">
-              Start Balance
-            </div>
-            <div className="text-lg font-bold text-white">
-              {stats.startBalance}
-            </div>
-          </div>
-          <div>
-            <div className="text-zinc-400 text-xs uppercase mb-1">
-              Forventet profit
-            </div>
-            <div className="text-lg font-bold text-emerald-300">
-              {stats.expected}
-            </div>
-          </div>
-          <div>
-            <div className="text-zinc-400 text-xs uppercase mb-1">Profit</div>
-            <div className="text-lg font-bold text-green-400">
-              {stats.profit}
-            </div>
-          </div>
-          <div>
-            <div className="text-zinc-400 text-xs uppercase mb-1">ROI %</div>
-            <div className="text-lg font-bold text-yellow-400">{stats.roi}</div>
-          </div>
-          <div>
-            <div className="text-zinc-400 text-xs uppercase mb-1">
-              Antal bets
-            </div>
-            <div className="text-lg font-bold">{stats.count}</div>
-          </div>
-        </div>
-      )}
+      {/* Controls */}
+      <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="p-6 bg-white/5 backdrop-blur rounded-xl border border-[#1D9FB8]/30"
+        >
+          <h2 className="text-xl text-[#59D3E6] mb-4">Indstillinger</h2>
+          <label className="text-sm">Bankroll</label>
+          <input
+            type="number"
+            placeholder={bankroll}
+            className="w-full px-4 py-2 mb-4 bg-[#0f2d3e] border border-[#1D9FB8]/50 rounded-md text-[#59D3E6] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#59D3E6]/60"
+            onChange={(e) => unitCalculater(e.target.value)}
+          />
+          <label className="text-sm">Unit-størrelse</label>
+          <input
+            type="number"
+            placeholder={stake}
+            className="w-full px-4 py-2 bg-[#0f2d3e] border border-[#1D9FB8]/50 rounded-md text-[#59D3E6] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#59D3E6]/60"
+            onChange={(e) => setStake(e.target.value)}
+          />
+          <p className="mt-3 text-sm text-gray-400">
+            1 unit = {Math.round(bankroll * 0.05)} kr
+          </p>
+        </motion.div>
 
-      {/* Væddemål opdelt efter dato */}
-      {Object.entries(
-        bets.reduce((acc, bet) => {
-          const date = bet["Start Balance"];
-          if (!acc[date]) acc[date] = [];
-          acc[date].push(bet);
-          return acc;
-        }, {})
-      ).map(([date, dailyBets], idx) => (
-        <div key={idx} className="mb-8">
-          <div className="flex items-center mb-4">
-            <hr className="flex-grow border-zinc-700" />
-            <span className="px-4 text-sm text-zinc-400 font-semibold whitespace-nowrap">
-              {date}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="p-6 bg-white/5 backdrop-blur rounded-xl border border-[#59D3E6]/30"
+        >
+          <h2 className="text-xl text-[#59D3E6] mb-4">Statistik</h2>
+          {statsList.map((s, i) => (
+            <p key={i} className="text-sm text-gray-200">
+              {s()}
+            </p>
+          ))}
+          <p className="text-lg font-bold mt-6">
+            Din saldo ville lige nu være:{" "}
+            <span className="text-[#59D3E6]">
+              {formatKr(beregnSimuleretSaldo())}
             </span>
-            <hr className="flex-grow border-zinc-700" />
-          </div>
+          </p>
+        </motion.div>
+      </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {dailyBets.map((bet, index) => (
-              <div
-                key={index}
-                className={`border p-4 rounded-xl transition-transform hover:scale-[1.02] shadow-md ${getStatusColor(
-                  bet["Forventet profit"]
-                )}`}
+      {/* BET CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {bets.map((bet, i) => {
+          const odds = parseFloat(bet.odds.replace(",", "."));
+          const unit = parseFloat(bet["unit "].replace(",", "."));
+          const result = bet.status === "Vundet";
+          const push = bet.status === "Push";
+          const profit = result
+            ? Math.round(stake * unit * odds)
+            : push
+            ? Math.round(stake * unit)
+            : -Math.round(stake * unit);
+
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.03 }}
+              className="p-5 bg-white/5 backdrop-blur-md rounded-xl border border-[#1D9FB8]/20 shadow-[0_0_20px_#1d9fb81a] hover:scale-[1.01] transition-all"
+            >
+              <p className="text-sm text-gray-400">{bet.dato}</p>
+              <p className="text-lg font-bold text-[#59D3E6]">
+                Odds: {bet.odds}
+              </p>
+              <p className="text-xl font-bold">
+                {profit > 0 ? "+" : ""}
+                {profit} kr
+              </p>
+              <p
+                className={`text-sm uppercase tracking-widest ${
+                  result
+                    ? "text-green-400"
+                    : push
+                    ? "text-yellow-400"
+                    : "text-red-400"
+                }`}
               >
-                <div>
-                  <span className="text-zinc-400">Unit:</span> {bet[""]}
-                </div>
-                <div>
-                  <span className="text-zinc-400">Odds:</span>{" "}
-                  {bet["Stake Size"]}
-                </div>
-                <div>
-                  <span className="text-zinc-400">Udbetaling:</span>{" "}
-                  {bet["Total "]}
-                </div>
-                <div>
-                  <span className="text-zinc-400">Status:</span>{" "}
-                  {bet["Forventet profit"]}
-                </div>
-                <div>
-                  <span className="text-zinc-400">Profit:</span> {bet["Profit"]}
-                </div>
-                <div>
-                  <span className="text-zinc-400">Real profit:</span>{" "}
-                  {bet["ROI %"]}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+                {bet.status}
+              </p>
+            </motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 }
