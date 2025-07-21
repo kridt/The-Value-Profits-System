@@ -2,14 +2,7 @@
 import React from "react";
 import BetList from "./BetList";
 
-const images = [
-  "img1.png",
-  "img2.png",
-  "img3.png",
-  "img4.png",
-  "img5.png",
-  "img6.png",
-];
+const images = ["img1.png"];
 
 const ImageRow = () => {
   return (
