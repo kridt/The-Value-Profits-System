@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 
 export default function BetList() {
   const [bets, setBets] = useState([]);
-  const [stake, setStake] = useState(500);
   const [bankroll, setBankroll] = useState(10000);
+  const [stake, setStake] = useState(500);
   const [tickerIndex, setTickerIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const statsList = [
     () => `Total Bets: ${bets.length}`,
@@ -20,17 +21,17 @@ export default function BetList() {
     () => `Tabte: ${bets.filter((b) => b.status === "Tabt").length}`,
     () => `Push: ${bets.filter((b) => b.status === "Push").length}`,
     () =>
-      `Gns. Odds: ${(
+      `Gns. Odds (inkl. long shots): ${(
         bets.reduce((acc, b) => acc + parseFloat(b.odds.replace(",", ".")), 0) /
         (bets.length || 1)
       ).toFixed(2)}`,
     () =>
-      `Gns. Unit: ${(
+      `Gns. sats per spil: ${formatKr(
         bets.reduce(
-          (acc, b) => acc + parseFloat(b["unit "].replace(",", ".")),
+          (acc, b) => acc + parseFloat(b["unit "].replace(",", ".")) * stake,
           0
         ) / (bets.length || 1)
-      ).toFixed(2)}`,
+      )}`,
   ];
 
   useEffect(() => {
@@ -59,25 +60,24 @@ export default function BetList() {
     return () => clearInterval(interval);
   }, [bets]);
 
-  function unitCalculater(bankroll) {
-    setBankroll(bankroll);
+  useEffect(() => {
     setStake(Math.round(bankroll * 0.05));
-  }
+  }, [bankroll]);
+
   function beregnSimuleretSaldo() {
     return bets.reduce((acc, bet) => {
       const odds = parseFloat(bet.odds.replace(",", "."));
       const unit = parseFloat(bet["unit "].replace(",", "."));
-      const status = bet.status;
       const indsats = stake * unit;
 
-      if (status === "Vundet") {
-        return acc + (odds * indsats - indsats); // læg profit til
-      } else if (status === "Tabt") {
-        return acc - indsats; // træk indsats fra
+      if (bet.status === "Vundet") {
+        return acc + (odds * indsats - indsats);
+      } else if (bet.status === "Tabt") {
+        return acc - indsats;
       } else {
-        return acc; // Push = 0
+        return acc;
       }
-    }, bankroll); // starter på din bankroll
+    }, bankroll);
   }
 
   function formatKr(amount) {
@@ -90,7 +90,7 @@ export default function BetList() {
 
   return (
     <div className="min-h-screen bg-[#071B26] text-white font-mono p-6">
-      {/* TICKER */}
+      {/* Ticker */}
       <div className="mb-10 w-full overflow-hidden h-10 bg-[#0D2C3C] rounded-xl border border-[#1D9FB8]/40 flex items-center justify-center">
         <motion.p
           key={tickerIndex}
@@ -116,19 +116,12 @@ export default function BetList() {
           <label className="text-sm">Bankroll</label>
           <input
             type="number"
-            placeholder={bankroll}
+            value={bankroll}
+            onChange={(e) => setBankroll(Number(e.target.value))}
             className="w-full px-4 py-2 mb-4 bg-[#0f2d3e] border border-[#1D9FB8]/50 rounded-md text-[#59D3E6] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#59D3E6]/60"
-            onChange={(e) => unitCalculater(e.target.value)}
           />
-          <label className="text-sm">Unit-størrelse</label>
-          <input
-            type="number"
-            placeholder={stake}
-            className="w-full px-4 py-2 bg-[#0f2d3e] border border-[#1D9FB8]/50 rounded-md text-[#59D3E6] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#59D3E6]/60"
-            onChange={(e) => setStake(e.target.value)}
-          />
-          <p className="mt-3 text-sm text-gray-400">
-            1 unit = {Math.round(bankroll * 0.05)} kr
+          <p className="mt-2 text-sm text-gray-400">
+            1 unit = {stake} kr (5% af bankroll)
           </p>
         </motion.div>
 
@@ -153,9 +146,9 @@ export default function BetList() {
         </motion.div>
       </div>
 
-      {/* BET CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {bets.map((bet, i) => {
+      {/* Bets */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        {bets.slice(0, visibleCount).map((bet, i) => {
           const odds = parseFloat(bet.odds.replace(",", "."));
           const unit = parseFloat(bet["unit "].replace(",", "."));
           const result = bet.status === "Vundet";
@@ -197,6 +190,17 @@ export default function BetList() {
           );
         })}
       </div>
+
+      {visibleCount < bets.length && (
+        <div className="text-center">
+          <button
+            onClick={() => setVisibleCount((prev) => prev + 4)}
+            className="px-6 py-2 rounded-md bg-[#59D3E6] text-black font-bold hover:bg-[#3cb7d6] transition-all"
+          >
+            Se flere væddemål
+          </button>
+        </div>
+      )}
     </div>
   );
 }
