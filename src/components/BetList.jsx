@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
 // Månedsknapper
@@ -24,7 +25,7 @@ export default function BetList() {
   const [bankroll, setBankroll] = useState(10000);
   const [stake, setStake] = useState(500);
   const [tickerIndex, setTickerIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(10);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -102,25 +103,56 @@ export default function BetList() {
   }
 
   function lavKontoHistorik() {
-    const sorted = [...bets].sort((a, b) => {
-      const [da, ma, ya] = a.dato.split("/").map(Number);
-      const [db, mb, yb] = b.dato.split("/").map(Number);
-      return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
-    });
+    const saldoHistorik = {};
+    const parseDato = (str) => {
+      const [d, m, y] = str.split("/");
+      return new Date(+y || 2025, +m - 1, +d);
+    };
 
     let saldo = bankroll;
-    return sorted.map((bet) => {
+    let førsteDato = null;
+    let sidsteDato = null;
+
+    // Registrér daglig profit/tab
+    for (let bet of bets) {
+      const dato = parseDato(bet.dato);
+      const isoKey = dato.toISOString().split("T")[0];
       const odds = parseFloat(bet.odds.replace(",", "."));
       const unit = parseFloat(bet["unit "].replace(",", "."));
       const indsats = stake * unit;
-      const status = bet.status;
 
-      if (status === "Vundet") saldo += odds * indsats - indsats;
-      else if (status === "Tabt") saldo -= indsats;
+      if (!saldoHistorik[isoKey]) saldoHistorik[isoKey] = 0;
 
-      const kortDato = bet.dato.split("/").slice(0, 2).join("/");
-      return { dato: kortDato, saldo: Math.round(saldo) };
-    });
+      if (bet.status === "Vundet") {
+        saldoHistorik[isoKey] += odds * indsats - indsats;
+      } else if (bet.status === "Tabt") {
+        saldoHistorik[isoKey] -= indsats;
+      }
+
+      if (!førsteDato || dato < førsteDato) førsteDato = dato;
+      if (!sidsteDato || dato > sidsteDato) sidsteDato = dato;
+    }
+
+    // Udfyld alle mellemliggende datoer
+    const dagligResultat = [];
+    let d = new Date(førsteDato);
+    while (d <= sidsteDato) {
+      const iso = d.toISOString().split("T")[0];
+      const [y, m, day] = iso.split("-");
+      const visDato = `${day}/${m}`;
+
+      const ændring = saldoHistorik[iso] || 0;
+      saldo += ændring;
+
+      dagligResultat.push({
+        dato: visDato,
+        saldo: Math.round(saldo),
+      });
+
+      d.setDate(d.getDate() + 1);
+    }
+
+    return dagligResultat;
   }
 
   const statsList = [
@@ -237,13 +269,28 @@ export default function BetList() {
                 <XAxis
                   dataKey="dato"
                   stroke="#59D3E6"
-                  angle={-25}
+                  angle={-45}
                   textAnchor="end"
-                  height={80}
+                  height={60}
+                  interval="preserveStartEnd"
                 />
 
                 <YAxis stroke="#59D3E6" />
                 <Tooltip />
+                <ReferenceLine
+                  y={bankroll}
+                  stroke="#7EC1A3"
+                  strokeWidth={2}
+                  strokeDasharray="6 3"
+                  label={{
+                    value: "Start-bankroll",
+                    position: "bottom",
+                    fill: "#7EC1A3",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                  }}
+                />
+
                 <Line
                   type="monotone"
                   dataKey="saldo"
@@ -251,7 +298,7 @@ export default function BetList() {
                   strokeWidth={2}
                   dot={false}
                   isAnimationActive={true}
-                  animationDuration={1000} // Standard er 1500 ms
+                  animationDuration={1000}
                   animationEasing="ease-in-out"
                 />
               </LineChart>
