@@ -37,15 +37,14 @@ export default function Home() {
           måneden på <span className="text-gradient">sportsbetting</span>.
         </p>
 
-        <div className="w-full aspect-video">
-          <VideoGate />
-        </div>
+        {/* Fjernet aspect-video wrapper her */}
+        <VideoGate />
 
         <Testimonials />
-
         <ImageRow />
         <FAQ />
       </div>
+
       <footer
         style={{
           textAlign: "center",
