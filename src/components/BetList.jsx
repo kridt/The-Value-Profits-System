@@ -103,56 +103,26 @@ export default function BetList() {
   }
 
   function lavKontoHistorik() {
-    const saldoHistorik = {};
-    const parseDato = (str) => {
-      const [d, m, y] = str.split("/");
-      return new Date(+y || 2025, +m - 1, +d);
-    };
+    const sorted = [...bets].sort((a, b) => {
+      const [da, ma, ya] = a.dato.split("/").map(Number);
+      const [db, mb, yb] = b.dato.split("/").map(Number);
+      return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
+    });
 
     let saldo = bankroll;
-    let førsteDato = null;
-    let sidsteDato = null;
-
-    // Registrér daglig profit/tab
-    for (let bet of bets) {
-      const dato = parseDato(bet.dato);
-      const isoKey = dato.toISOString().split("T")[0];
+    return sorted.map((bet, i) => {
       const odds = parseFloat(bet.odds.replace(",", "."));
       const unit = parseFloat(bet["unit "].replace(",", "."));
       const indsats = stake * unit;
 
-      if (!saldoHistorik[isoKey]) saldoHistorik[isoKey] = 0;
+      if (bet.status === "Vundet") saldo += odds * indsats - indsats;
+      else if (bet.status === "Tabt") saldo -= indsats;
 
-      if (bet.status === "Vundet") {
-        saldoHistorik[isoKey] += odds * indsats - indsats;
-      } else if (bet.status === "Tabt") {
-        saldoHistorik[isoKey] -= indsats;
-      }
-
-      if (!førsteDato || dato < førsteDato) førsteDato = dato;
-      if (!sidsteDato || dato > sidsteDato) sidsteDato = dato;
-    }
-
-    // Udfyld alle mellemliggende datoer
-    const dagligResultat = [];
-    let d = new Date(førsteDato);
-    while (d <= sidsteDato) {
-      const iso = d.toISOString().split("T")[0];
-      const [y, m, day] = iso.split("-");
-      const visDato = `${day}/${m}`;
-
-      const ændring = saldoHistorik[iso] || 0;
-      saldo += ændring;
-
-      dagligResultat.push({
-        dato: visDato,
+      return {
+        index: i + 1,
         saldo: Math.round(saldo),
-      });
-
-      d.setDate(d.getDate() + 1);
-    }
-
-    return dagligResultat;
+      };
+    });
   }
 
   const statsList = [
@@ -261,45 +231,87 @@ export default function BetList() {
           </div>
 
           {/* Graf */}
-          <div className="bg-white/5 backdrop-blur rounded-xl border border-[#59D3E6]/30 p-6 mb-12">
-            <h2 className="text-xl text-[#59D3E6] mb-4">Saldo over tid</h2>
-            <ResponsiveContainer width="100%" height={400}>
+          <div className="w-full px-2 sm:px-4 lg:px-12 py-6 bg-white/5 backdrop-blur rounded-xl border border-[#59D3E6]/30 mb-12">
+            <h2 className="text-xl sm:text-2xl text-[#59D3E6] mb-4 text-center">
+              Saldo over tid (væddemål #)
+            </h2>
+
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart data={lavKontoHistorik()}>
+                <defs>
+                  <linearGradient
+                    id="saldoGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#59D3E6" stopOpacity={0.3} />
+                    <stop
+                      offset="100%"
+                      stopColor="#071B26"
+                      stopOpacity={0.05}
+                    />
+                  </linearGradient>
+                </defs>
+
                 <CartesianGrid strokeDasharray="3 3" stroke="#1D9FB8" />
+
                 <XAxis
-                  dataKey="dato"
+                  dataKey="index"
                   stroke="#59D3E6"
-                  angle={-45}
-                  textAnchor="end"
-                  height={60}
-                  interval="preserveStartEnd"
+                  tick={{ fill: "#59D3E6", fontSize: 10 }}
+                  label={{
+                    value: "Væddemål #",
+                    position: "insideBottom",
+                    offset: -5,
+                    fill: "#59D3E6",
+                    fontSize: 12,
+                  }}
+                  tickCount={10}
                 />
 
                 <YAxis stroke="#59D3E6" />
-                <Tooltip />
+
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#0D2C3C",
+                    border: "1px solid #59D3E6",
+                    borderRadius: "8px",
+                    color: "#fff",
+                    fontSize: "0.85rem",
+                  }}
+                  labelStyle={{ color: "#59D3E6", fontWeight: "bold" }}
+                  formatter={(value, name) => {
+                    if (name === "saldo") return [`${value} kr`, "Saldo"];
+                    return [value, name];
+                  }}
+                  labelFormatter={(label) => `Væddemål #${label}`}
+                />
+
                 <ReferenceLine
                   y={bankroll}
-                  stroke="#7EC1A3"
+                  stroke="#FFD700"
                   strokeWidth={2}
                   strokeDasharray="6 3"
                   label={{
                     value: "Start-bankroll",
-                    position: "bottom",
-                    fill: "#7EC1A3",
+                    position: "top",
+                    fill: "#FFD700",
                     fontWeight: "bold",
-                    fontSize: 14,
+                    fontSize: 13,
                   }}
                 />
 
                 <Line
-                  type="monotone"
+                  type="basis"
                   dataKey="saldo"
                   stroke="#59D3E6"
                   strokeWidth={2}
+                  fill="url(#saldoGradient)"
                   dot={false}
                   isAnimationActive={true}
                   animationDuration={1000}
-                  animationEasing="ease-in-out"
                 />
               </LineChart>
             </ResponsiveContainer>
