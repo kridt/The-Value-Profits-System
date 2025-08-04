@@ -14,8 +14,9 @@ import {
 
 // Månedsknapper
 const availableMonths = [
-  { label: "Juni", sheet: "Juni" },
   { label: "Juli", sheet: "Juli" },
+  { label: "Juni", sheet: "Juni" },
+  { label: "August", sheet: "august" },
   // Tilføj fx: { label: "August", sheet: "August" }
 ];
 
@@ -34,11 +35,13 @@ export default function BetList() {
       try {
         if (selectedMonth === "Alle") {
           const all = await Promise.all(
-            availableMonths.map((m) =>
+            availableMonths.map((m) => {
+              console.log(m.sheet);
+
               axios.get(
                 `https://opensheet.elk.sh/1hKzN810Lt4tl73O9FQ46Zj9689Bj8W2qeQ2aUUINH84/${m.sheet}`
-              )
-            )
+              );
+            })
           );
           const combined = all
             .flatMap((res) => res.data)
