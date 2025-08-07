@@ -14,36 +14,34 @@ import {
 
 // Månedsknapper
 const availableMonths = [
-  { label: "Juli", sheet: "Juli" },
   { label: "Juni", sheet: "Juni" },
-  { label: "August", sheet: "august" },
-  // Tilføj fx: { label: "August", sheet: "August" }
+  { label: "Juli", sheet: "Juli" },
+  { label: "August", sheet: "August" }, // Husk præcis match på faneblad
 ];
 
 export default function BetList() {
   const [bets, setBets] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState("Juli");
+  const [selectedMonth, setSelectedMonth] = useState("Juni");
   const [bankroll, setBankroll] = useState(10000);
   const [stake, setStake] = useState(500);
   const [tickerIndex, setTickerIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(10);
   const [loading, setLoading] = useState(false);
 
+  // Hent data når måned ændres
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         if (selectedMonth === "Alle") {
-          const all = await Promise.all(
-            availableMonths.map((m) => {
-              console.log(m.sheet);
-
+          const allResponses = await Promise.all(
+            availableMonths.map((m) =>
               axios.get(
                 `https://opensheet.elk.sh/1hKzN810Lt4tl73O9FQ46Zj9689Bj8W2qeQ2aUUINH84/${m.sheet}`
-              );
-            })
+              )
+            )
           );
-          const combined = all
+          const combined = allResponses
             .flatMap((res) => res.data)
             .filter((row) => parseFloat(row["antal bets"]) > 0)
             .sort((a, b) => {
@@ -66,25 +64,57 @@ export default function BetList() {
           setBets(filtered);
         }
       } catch (err) {
-        console.error("Fejl:", err);
+        console.error("Fejl ved hentning af data:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchData();
   }, [selectedMonth]);
 
+  // Genberegn stake når bankroll ændres
   useEffect(() => {
     setStake(Math.round(bankroll * 0.05));
   }, [bankroll]);
+
+  // Ticker for stats, kun re-initialiser når antal stats ændrer sig
+  const statsList = [
+    () => `Total Bets: ${bets.length}`,
+    () =>
+      `Winrate: ${
+        Math.round(
+          (bets.filter((b) => b.status === "Vundet").length /
+            (bets.length || 1)) *
+            100
+        ) || 0
+      }%`,
+    () => `Vundne: ${bets.filter((b) => b.status === "Vundet").length}`,
+    () => `Tabte: ${bets.filter((b) => b.status === "Tabt").length}`,
+    () => `Push: ${bets.filter((b) => b.status === "Push").length}`,
+    () =>
+      `Gns. Odds: ${(
+        bets.reduce((acc, b) => acc + parseFloat(b.odds.replace(",", ".")), 0) /
+        (bets.length || 1)
+      ).toFixed(2)}`,
+    () =>
+      `Gns. sats/spil: ${formatKr(
+        bets.reduce(
+          (acc, b) => acc + parseFloat(b["unit "].replace(",", ".")) * stake,
+          0
+        ) / (bets.length || 1)
+      )}`,
+    () => `Aktiv måned: ${selectedMonth}`,
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTickerIndex((prev) => (prev + 1) % statsList.length);
     }, 3000);
     return () => clearInterval(interval);
-  });
+  }, [statsList.length]);
 
+  // Hjælpefunktioner
   function beregnSimuleretSaldo() {
     return bets.reduce((acc, bet) => {
       const odds = parseFloat(bet.odds.replace(",", "."));
@@ -127,32 +157,6 @@ export default function BetList() {
       };
     });
   }
-
-  const statsList = [
-    () => `Total Bets: ${bets.length}`,
-    () =>
-      `Winrate: ${
-        Math.round(
-          (bets.filter((b) => b.status === "Vundet").length / bets.length) * 100
-        ) || 0
-      }%`,
-    () => `Vundne: ${bets.filter((b) => b.status === "Vundet").length}`,
-    () => `Tabte: ${bets.filter((b) => b.status === "Tabt").length}`,
-    () => `Push: ${bets.filter((b) => b.status === "Push").length}`,
-    () =>
-      `Gns. Odds (inkl. long shots): ${(
-        bets.reduce((acc, b) => acc + parseFloat(b.odds.replace(",", ".")), 0) /
-        (bets.length || 1)
-      ).toFixed(2)}`,
-    () =>
-      `Gns. sats per spil: ${formatKr(
-        bets.reduce(
-          (acc, b) => acc + parseFloat(b["unit "].replace(",", ".")) * stake,
-          0
-        ) / (bets.length || 1)
-      )}`,
-    () => `Aktiv måned: ${selectedMonth}`,
-  ];
 
   return (
     <div className="min-h-screen bg-[#071B26] text-white font-mono p-6">
@@ -238,7 +242,6 @@ export default function BetList() {
             <h2 className="text-xl sm:text-2xl text-[#59D3E6] mb-4 text-center">
               Saldo over tid (væddemål #)
             </h2>
-
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={lavKontoHistorik()}>
                 <defs>
@@ -257,9 +260,7 @@ export default function BetList() {
                     />
                   </linearGradient>
                 </defs>
-
                 <CartesianGrid strokeDasharray="3 3" stroke="#1D9FB8" />
-
                 <XAxis
                   dataKey="index"
                   stroke="#59D3E6"
@@ -273,9 +274,7 @@ export default function BetList() {
                   }}
                   tickCount={10}
                 />
-
                 <YAxis stroke="#59D3E6" />
-
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#0D2C3C",
@@ -291,7 +290,6 @@ export default function BetList() {
                   }}
                   labelFormatter={(label) => `Væddemål #${label}`}
                 />
-
                 <ReferenceLine
                   y={bankroll}
                   stroke="#FFD700"
@@ -305,7 +303,6 @@ export default function BetList() {
                     fontSize: 13,
                   }}
                 />
-
                 <Line
                   type="basis"
                   dataKey="saldo"
