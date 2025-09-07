@@ -144,7 +144,7 @@ export default function BetList() {
   }
 
   return (
-    <div className="min-h-[60vh] text-white font-sans">
+    <div className="min-h-[60vh] font-sans">
       {/* Månedsvælger */}
       <div className="flex flex-wrap gap-3 mb-6">
         {availableMonths.map((m) => (
@@ -154,6 +154,7 @@ export default function BetList() {
             className={`px-4 py-2 rounded-lg transition ${
               selectedMonth === m.sheet ? "btn-neon" : "surface hover:glow-soft"
             }`}
+            data-halo
           >
             {m.label}
           </button>
@@ -163,25 +164,26 @@ export default function BetList() {
           className={`px-4 py-2 rounded-lg transition ${
             selectedMonth === "Alle" ? "btn-neon" : "surface hover:glow-soft"
           }`}
+          data-halo
         >
           Alle måneder
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center my-12 animate-pulse text-[#00E5FF] text-xl">
+        <div className="text-center my-12 animate-pulse text-[#9ff7ff] text-xl">
           Indlæser data...
         </div>
       ) : (
         <>
           {/* Ticker */}
-          <div className="mb-10 w-full overflow-hidden h-10 rounded-xl surface glow-soft flex items-center justify-center">
+          <div className="mb-10 w-full overflow-hidden h-10 rounded-xl surface glow-soft flex items-center justify-center border-sweep">
             <motion.p
               key={tickerIndex}
               initial={{ y: 14, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.25 }}
-              className="text-sm sm:text-base text-[#00E5FF] font-semibold tracking-wide"
+              className="text-sm sm:text-base font-semibold tracking-wide text-[#9ff7ff]"
             >
               {statsList[tickerIndex]()}
             </motion.p>
@@ -189,7 +191,7 @@ export default function BetList() {
 
           {/* Controls + KPI */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="p-6 card-neon">
+            <div className="p-6 card-neon border-sweep">
               <label className="text-xs text-[#9CB6C1]">Bankroll</label>
               <input
                 type="number"
@@ -202,15 +204,15 @@ export default function BetList() {
               </p>
             </div>
 
-            <div className="p-6 card-neon">
+            <div className="p-6 card-neon border-sweep">
               {statsList.map((s, i) => (
-                <p key={i} className="text-sm text-[#E9F1F5]/80">
+                <p key={i} className="text-sm text-[#E9F1F5]/85">
                   {s()}
                 </p>
               ))}
               <p className="text-lg font-bold mt-6">
                 Din saldo ville lige nu være:{" "}
-                <span className="text-gradient">
+                <span className="text-gradient-neo">
                   {formatKr(beregnSimuleretSaldo())}
                 </span>
               </p>
@@ -218,8 +220,8 @@ export default function BetList() {
           </div>
 
           {/* Graf */}
-          <div className="w-full px-2 sm:px-4 lg:px-8 py-6 card-neon mb-12">
-            <h2 className="text-xl sm:text-2xl text-gradient mb-4 text-center">
+          <div className="w-full px-2 sm:px-4 lg:px-8 py-6 card-neon border-sweep mb-12">
+            <h2 className="text-xl sm:text-2xl text-gradient-neo mb-4 text-center">
               Saldo over tid (væddemål #)
             </h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -232,7 +234,7 @@ export default function BetList() {
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="0%" stopColor="#00E5FF" stopOpacity={0.28} />
+                    <stop offset="0%" stopColor="#00ffa7" stopOpacity={0.32} />
                     <stop
                       offset="100%"
                       stopColor="#070808"
@@ -240,7 +242,7 @@ export default function BetList() {
                     />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#18333a" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#16423e" />
                 <XAxis
                   dataKey="index"
                   stroke="#4DE5D3"
@@ -261,12 +263,12 @@ export default function BetList() {
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#0A0B0C",
-                    border: "1px solid rgba(0,229,255,0.35)",
-                    borderRadius: "8px",
+                    border: "1px solid rgba(159,247,255,.55)",
+                    borderRadius: "10px",
                     color: "#E9F1F5",
-                    fontSize: "0.85rem",
+                    fontSize: ".85rem",
                   }}
-                  labelStyle={{ color: "#00E5FF", fontWeight: 600 }}
+                  labelStyle={{ color: "#9ff7ff", fontWeight: 700 }}
                   formatter={(value, name) =>
                     name === "saldo" ? [`${value} kr`, "Saldo"] : [value, name]
                   }
@@ -274,13 +276,13 @@ export default function BetList() {
                 />
                 <ReferenceLine
                   y={bankroll}
-                  stroke="#FFD700"
+                  stroke="#b2ff59"
                   strokeWidth={2}
                   strokeDasharray="6 3"
                   label={{
                     value: "Start-bankroll",
                     position: "top",
-                    fill: "#FFD700",
+                    fill: "#b2ff59",
                     fontWeight: "bold",
                     fontSize: 12,
                   }}
@@ -288,12 +290,12 @@ export default function BetList() {
                 <Line
                   type="monotone"
                   dataKey="saldo"
-                  stroke="#00E5FF"
+                  stroke="#00ffa7"
                   strokeWidth={2}
                   fill="url(#saldoGradient)"
                   dot={false}
                   isAnimationActive
-                  animationDuration={600}
+                  animationDuration={650}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -311,16 +313,17 @@ export default function BetList() {
                 : push
                 ? Math.round(stake * unit)
                 : -Math.round(stake * unit);
+
               return (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.22 }}
-                  className="p-5 card-neon"
+                  className="p-5 card-neon border-sweep"
                 >
                   <p className="text-xs text-[#9CB6C1]">{bet.dato}</p>
-                  <p className="text-lg font-semibold text-gradient">
+                  <p className="text-lg font-semibold text-gradient-neo">
                     Odds: {bet.odds}
                   </p>
                   <p className="text-xl font-bold">
@@ -330,10 +333,10 @@ export default function BetList() {
                   <p
                     className={`text-xs uppercase tracking-widest ${
                       result
-                        ? "text-green-400"
+                        ? "text-[#5CFF8F]"
                         : push
-                        ? "text-yellow-300"
-                        : "text-red-400"
+                        ? "text-[#D2FF6B]"
+                        : "text-[#FF6B6B]"
                     }`}
                   >
                     {bet.status}
@@ -348,6 +351,7 @@ export default function BetList() {
               <button
                 onClick={() => setVisibleCount((prev) => prev + 4)}
                 className="px-6 py-2 btn-neon"
+                data-halo
               >
                 Se flere væddemål
               </button>

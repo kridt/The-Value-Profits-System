@@ -50,7 +50,7 @@ export default function VideoGate() {
   return (
     <div className="w-full flex flex-col items-center mt-4 mb-4 px-4">
       {formSubmitted ? (
-        <div className="w-full max-w-4xl aspect-video mb-6 card-neon">
+        <div className="w-full max-w-4xl aspect-video mb-6 card-neon border-sweep">
           <iframe
             src="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
             width="100%"
@@ -64,7 +64,7 @@ export default function VideoGate() {
       ) : (
         <div
           onClick={handlePlayClick}
-          className="w-full max-w-4xl aspect-video mb-6 surface glow-soft flex items-center justify-center cursor-pointer relative overflow-hidden"
+          className="w-full max-w-4xl aspect-video mb-6 surface glow-soft flex items-center justify-center cursor-pointer relative overflow-hidden border-sweep"
         >
           <iframe
             src="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
@@ -78,7 +78,7 @@ export default function VideoGate() {
             {gateTriggered ? (
               <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md card-neon"
+                className="w-full max-w-md card-neon border-sweep"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h2 className="text-lg font-semibold mb-3">
@@ -110,13 +110,17 @@ export default function VideoGate() {
                 />
                 <button
                   type="submit"
-                  className="w-full btn-neon py-2 font-medium"
+                  className="w-full btn-neon py-2 font-semibold"
+                  data-halo
                 >
                   Få adgang til videoen
                 </button>
               </form>
             ) : (
-              <button className="btn-neon px-6 py-3 text-base sm:text-lg rounded-full">
+              <button
+                className="btn-neon px-6 py-3 text-base sm:text-lg rounded-full"
+                data-halo
+              >
                 Tryk for at se videoen
               </button>
             )}
@@ -129,6 +133,7 @@ export default function VideoGate() {
         target="_blank"
         rel="noopener noreferrer"
         className="mt-6 mb-7 btn-neon px-6 py-3 inline-block font-semibold"
+        data-halo
       >
         Book din samtale
       </a>

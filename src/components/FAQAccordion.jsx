@@ -30,13 +30,15 @@ export default function FAQ() {
   return (
     <div className="mt-10 w-full max-w-2xl mx-auto space-y-4 text-left">
       {faqData.map((item, i) => (
-        <div key={i} className="surface p-4 hover:glow-soft transition">
+        <div key={i} className="surface p-4 hover:glow transition border-sweep">
           <button
             onClick={() => toggle(i)}
             className="flex justify-between items-center w-full text-left text-lg font-semibold"
           >
             <span>{item.question}</span>
-            <span className="text-gradient">{openIndex === i ? "−" : "+"}</span>
+            <span className="text-gradient-neo">
+              {openIndex === i ? "−" : "+"}
+            </span>
           </button>
           {openIndex === i && (
             <div className="mt-2 text-[#9CB6C1]">{item.answer}</div>

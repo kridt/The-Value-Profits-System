@@ -1,27 +1,31 @@
-/* index.css — Futuristic Glow + Soft Grid (v3) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Theme tokens ---------- */
+/* ---------- Tokens ---------- */
 :root {
   --bg: #070808;
   --surface: #0a0b0c;
   --text: #e9f1f5;
   --sub: #9cb6c1;
 
-  --accent: #00e5ff; /* cyan */
-  --accent-2: #4de5d3; /* turkis */
+  --cyan: #00e5ff;
+  --turq: #4de5d3;
+  --green: #00ffa7; /* neon-grøn */
+  --mint: #9ff7ff; /* lys cyan/mint */
 
-  /* Glow stacks */
-  --glow-1: 0 0 0 1px rgba(0, 229, 255, 0.32), 0 0 14px rgba(0, 229, 255, 0.2);
-  --glow-2: 0 0 0 1px rgba(0, 229, 255, 0.45), 0 0 22px rgba(0, 229, 255, 0.28);
-  --glow-3: 0 0 0 1px rgba(0, 229, 255, 0.55), 0 0 32px rgba(0, 229, 255, 0.36);
+  --glow-1: 0 0 0 1px rgba(159, 247, 255, 0.35),
+    0 0 16px rgba(159, 247, 255, 0.22);
+  --glow-2: 0 0 0 1px rgba(159, 247, 255, 0.55),
+    0 0 26px rgba(159, 247, 255, 0.32);
+  --glow-3: 0 0 0 1px rgba(159, 247, 255, 0.7),
+    0 0 42px rgba(159, 247, 255, 0.44);
 
   --elev: 0 10px 40px rgba(0, 0, 0, 0.45);
 
   --t-fast: 140ms;
-  --t-med: 220ms;
+  --t-med: 240ms;
+  --t-slow: 520ms;
 }
 html,
 body,
@@ -30,45 +34,114 @@ body,
 }
 body {
   @apply text-white antialiased;
-  background-color: var(--bg);
+  background: var(--bg);
 }
 
-/* ---------- SOFTER square grid background ---------- */
-/* Brug bg-grid-neon-soft på outer container */
-.bg-grid-neon-soft {
-  background-image: radial-gradient(
-      700px 480px at 58% 12%,
-      rgba(0, 229, 255, 0.12),
-      transparent 60%
+/* ---------- Base background (accent grid + animated cones/lines) ---------- */
+.bg-neo-green {
+  position: relative;
+  background-image:
+    /* Grid squares (mint accent) */ linear-gradient(
+      rgba(159, 247, 255, 0.12) 1px,
+      transparent 1px
     ),
-    radial-gradient(
-      520px 360px at 18% 82%,
-      rgba(77, 229, 211, 0.1),
-      transparent 60%
-    ),
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 34px 34px, 34px 34px; /* lidt større felter, lavere alpha */
-  background-position: 0 0, 0 0, 0 0, 0 0;
+    linear-gradient(90deg, rgba(159, 247, 255, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px, 34px 34px;
+  background-position: 0 0, 0 0;
+  overflow-x: clip;
 }
 
-/* Hvis du VIL have overlay, brug denne (meget svag) i stedet for den gamle */
-.grid-overlay-soft {
-  pointer-events: none;
+/* Animated “cones” layer — slow drift */
+.neo-cones {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.028) 1px,
-      transparent 1px
+  --x: 60%;
+  --y: 12%;
+  background: radial-gradient(
+      900px 620px at var(--x) var(--y),
+      rgba(159, 247, 255, 0.25),
+      transparent 65%
     ),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 34px 34px, 34px 34px;
+    radial-gradient(
+      560px 380px at 15% 80%,
+      rgba(77, 229, 211, 0.16),
+      transparent 60%
+    );
+  animation: conesDrift 18s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px rgba(159, 247, 255, 0.3));
+}
+@keyframes conesDrift {
+  0% {
+    --x: 60%;
+    --y: 12%;
+  }
+  100% {
+    --x: 68%;
+    --y: 18%;
+  }
 }
 
-/* ---------- Glow utilities ---------- */
+/* Diagonal sweep-lines layer — slow move */
+.neo-grid-sweep {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(159, 247, 255, 0.07) 0 2px,
+    transparent 2px 12px
+  );
+  animation: sweepMove 24s linear infinite;
+}
+@keyframes sweepMove {
+  to {
+    background-position: 240px 0;
+  }
+}
+
+/* Twinkle dots — subtle sparkle */
+.neo-twinkle {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image: radial-gradient(
+      2px 2px at 20% 30%,
+      rgba(255, 255, 255, 0.25),
+      transparent 60%
+    ),
+    radial-gradient(
+      2px 2px at 55% 15%,
+      rgba(255, 255, 255, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      2px 2px at 70% 70%,
+      rgba(255, 255, 255, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      2px 2px at 30% 80%,
+      rgba(255, 255, 255, 0.2),
+      transparent 60%
+    );
+  animation: twinkle 6s ease-in-out infinite alternate;
+  opacity: 0.75;
+}
+@keyframes twinkle {
+  0% {
+    filter: brightness(0.9);
+    transform: translateY(0px);
+  }
+  100% {
+    filter: brightness(1.1);
+    transform: translateY(2px);
+  }
+}
+
+/* ---------- Surfaces / Cards / Borders ---------- */
 .glow-text {
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  text-shadow: 0 0 12px rgba(159, 247, 255, 0.6);
 }
 .glow-soft {
   box-shadow: var(--glow-1);
@@ -80,10 +153,29 @@ body {
   box-shadow: var(--glow-3);
 }
 
-.card-neon {
+.surface {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1rem;
+  backdrop-filter: blur(2px);
+  transition: box-shadow var(--t-med) ease, border-color var(--t-fast) ease,
+    transform var(--t-fast) ease;
+}
+.surface:hover {
+  box-shadow: var(--glow-1);
+  border-color: rgba(159, 247, 255, 0.55);
+  transform: translateY(-1px);
+}
+
+.card-neon {
+  position: relative;
+  border-radius: 1rem;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.03)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(2px);
   box-shadow: var(--elev);
   transition: transform var(--t-fast) ease, box-shadow var(--t-med) ease,
@@ -92,49 +184,130 @@ body {
 .card-neon:hover {
   transform: translateY(-1px);
   box-shadow: var(--glow-2);
-  border-color: rgba(0, 229, 255, 0.45);
+  border-color: rgba(159, 247, 255, 0.75);
 }
 
-.surface {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* animated border-sweep */
+.border-sweep {
+  position: relative;
+  overflow: hidden;
   border-radius: 1rem;
-  backdrop-filter: blur(2px);
-  transition: box-shadow var(--t-med) ease, border-color var(--t-fast) ease,
-    transform var(--t-fast) ease;
 }
-.surface:hover {
-  box-shadow: var(--glow-1);
-  border-color: rgba(0, 229, 255, 0.35);
-  transform: translateY(-1px);
+.border-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(159, 247, 255, 0.9) 90deg,
+    transparent 180deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: sweep 4.5s linear infinite;
+  opacity: 0.7;
+}
+@keyframes sweep {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* ---------- Buttons ---------- */
+/* corner lights */
+.corner-lights {
+  position: relative;
+}
+.corner-lights::before,
+.corner-lights::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  filter: blur(28px);
+  opacity: 0.55;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(159, 247, 255, 0.75),
+    transparent 70%
+  );
+}
+.corner-lights::before {
+  top: -36px;
+  left: -36px;
+}
+.corner-lights::after {
+  bottom: -36px;
+  right: -36px;
+}
+
+/* divider line */
+.divider-neon {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(159, 247, 255, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 12px rgba(159, 247, 255, 0.45);
+  opacity: 0.85;
+}
+
+/* ---------- Buttons / Links ---------- */
 .btn-neon {
   position: relative;
-  background: rgba(0, 229, 255, 0.18);
-  border: 1px solid rgba(0, 229, 255, 0.45);
-  color: #fff;
-  border-radius: 0.85rem;
+  background: linear-gradient(
+    180deg,
+    rgba(159, 247, 255, 0.32),
+    rgba(0, 255, 167, 0.26)
+  );
+  border: 1px solid rgba(159, 247, 255, 0.75);
+  color: #001015;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  border-radius: 0.95rem;
   transition: transform var(--t-fast) ease, box-shadow var(--t-med) ease,
-    background-color var(--t-fast) ease, border-color var(--t-fast) ease;
-  box-shadow: var(--glow-1);
+    background-color var(--t-fast) ease, border-color var(--t-fast) ease,
+    color var(--t-fast) ease;
+  box-shadow: 0 6px 26px rgba(159, 247, 255, 0.26), var(--glow-1);
 }
 .btn-neon:hover {
-  background: rgba(0, 229, 255, 0.24);
-  border-color: rgba(0, 229, 255, 0.6);
-  box-shadow: var(--glow-2);
+  color: #000e0e;
+  background: linear-gradient(
+    180deg,
+    rgba(159, 247, 255, 0.38),
+    rgba(0, 255, 167, 0.32)
+  );
+  border-color: rgba(159, 247, 255, 0.9);
+  box-shadow: 0 10px 32px rgba(159, 247, 255, 0.34), var(--glow-2);
   transform: translateY(-1px);
 }
 .btn-neon:active {
   transform: translateY(0);
   box-shadow: var(--glow-1);
 }
+.btn-neon[data-halo]::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 1.2rem;
+  box-shadow: 0 0 48px rgba(159, 247, 255, 0.28);
+  opacity: 0;
+  transition: opacity var(--t-med) ease;
+}
+.btn-neon:hover[data-halo]::after {
+  opacity: 1;
+}
 
-/* Underline glow på links/CTA */
 .link-neon {
   position: relative;
-  color: #e9f1f5;
+  color: var(--text);
   text-decoration: none;
 }
 .link-neon::after {
@@ -144,8 +317,8 @@ body {
   bottom: -2px;
   height: 2px;
   width: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  background: linear-gradient(90deg, var(--mint), var(--green), var(--turq));
+  box-shadow: 0 0 12px rgba(159, 247, 255, 0.65);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--t-med) ease;
@@ -157,44 +330,32 @@ body {
 /* ---------- Inputs ---------- */
 .input-neon {
   background: #0a1013;
-  border: 1px solid rgba(0, 229, 255, 0.35);
   color: #e9f1f5;
-  border-radius: 0.6rem;
+  border: 1px solid rgba(159, 247, 255, 0.55);
+  border-radius: 0.75rem;
   outline: none;
-  transition: box-shadow var(--t-med) ease, border-color var(--t-fast) ease;
-  box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
+  transition: box-shadow var(--t-med) ease, border-color var(--t-fast) ease,
+    background var(--t-fast) ease;
+  box-shadow: 0 0 0 0 rgba(159, 247, 255, 0);
 }
 .input-neon:focus {
-  border-color: rgba(0, 229, 255, 0.6);
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12), var(--glow-1);
+  border-color: rgba(159, 247, 255, 0.95);
+  background: #0b1418;
+  box-shadow: 0 0 0 3px rgba(159, 247, 255, 0.22), var(--glow-2);
 }
 
-/* ---------- Animated badges ---------- */
-.badge-neon {
-  background: rgba(0, 229, 255, 0.12);
-  border: 1px solid rgba(0, 229, 255, 0.45);
-  color: #fff;
-  border-radius: 0.75rem;
-  box-shadow: var(--glow-1);
-  animation: glowPulse 2.6s ease-in-out infinite;
-}
-@keyframes glowPulse {
-  0%,
-  100% {
-    box-shadow: var(--glow-1);
-  }
-  50% {
-    box-shadow: var(--glow-2);
-  }
-}
-
-/* ---------- Headline gradient ---------- */
-.text-gradient {
+/* ---------- Headline gradient (greenish) ---------- */
+.text-gradient-neo {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, var(--accent), var(--accent-2));
-  background-size: 220% 220%;
-  animation: gradientX 5.5s ease-in-out infinite alternate;
-  text-shadow: 0 0 14px rgba(0, 229, 255, 0.32);
+  background-image: linear-gradient(
+    90deg,
+    var(--mint),
+    var(--green),
+    var(--turq)
+  );
+  background-size: 260% 260%;
+  animation: gradientX 6.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 18px rgba(159, 247, 255, 0.48);
 }
 @keyframes gradientX {
   0% {
@@ -205,7 +366,7 @@ body {
   }
 }
 
-/* ---------- Subtle enter ---------- */
+/* ---------- Enter animation ---------- */
 .fade-in {
   animation: fadeIn 0.28s ease-out both;
 }

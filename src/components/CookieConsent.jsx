@@ -53,9 +53,9 @@ export default function CookieConsent({ forceOpen = false }) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50 p-4">
-      <div className="card-neon max-w-md w-full p-7">
+      <div className="card-neon border-sweep max-w-md w-full p-7">
         <h2 className="text-2xl font-bold mb-3">
-          Vi bruger cookies <span className="text-gradient">🍪</span>
+          Vi bruger cookies <span className="text-gradient-neo">🍪</span>
         </h2>
         <p className="mb-6 text-sm text-[#9CB6C1]">
           Vi bruger cookies til statistik og markedsføring. Du kan altid ændre
@@ -71,6 +71,7 @@ export default function CookieConsent({ forceOpen = false }) {
           <button
             onClick={handleAccept}
             className="px-5 py-2 btn-neon font-semibold"
+            data-halo
           >
             Det lyder fint!
           </button>

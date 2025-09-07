@@ -13,7 +13,7 @@ export default function ImageRow() {
               key={i}
               src={`/images/${img}`}
               alt={`screenshot-${i}`}
-              className="w-[1000px] rounded-xl surface hover:glow transition-transform duration-200 hover:scale-[1.01]"
+              className="w-[1000px] rounded-xl surface hover:glow-strong transition-transform duration-300 hover:scale-[1.02]"
             />
           ))}
         </div>
