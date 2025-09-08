@@ -210,14 +210,14 @@ export default function BetList() {
               1 unit = {stake} kr
             </span>
 
-            <label className="ml-4 text-xs text-[var(--muted)] hidden sm:flex items-center gap-1">
+            {/* <label className="ml-4 text-xs text-[var(--muted)] hidden sm:flex items-center gap-1">
               <input
                 type="checkbox"
                 checked={debug}
                 onChange={(e) => setDebug(e.target.checked)}
               />
               Debug
-            </label>
+            </label> */}
           </div>
         </div>
       </div>
