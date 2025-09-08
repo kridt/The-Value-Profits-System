@@ -13,7 +13,7 @@ export default function Nav() {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <NavLink to="/" className="nav-link">
+          {/* <NavLink to="/" className="nav-link">
             Forside
           </NavLink>
           <NavLink to="/betingelser" className="nav-link">
@@ -21,7 +21,7 @@ export default function Nav() {
           </NavLink>
           <NavLink to="/privatliv" className="nav-link">
             Privatliv
-          </NavLink>
+          </NavLink> */}
         </div>
 
         <a
