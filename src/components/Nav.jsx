@@ -7,19 +7,19 @@ export default function Nav() {
       <nav className="container-xl h-16 flex items-center justify-between">
         <Link
           to="/"
-          className="font-black tracking-tight text-[18px] text-white"
+          className="font-black tracking-tight text-[18px] glow-accent"
         >
           Value Profits System
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          {/* <NavLink to="/" className="nav-link">
+          {/* <NavLink to="/" className="link-accent">
             Forside
           </NavLink>
-          <NavLink to="/betingelser" className="nav-link">
+          <NavLink to="/betingelser" className="link-accent">
             Betingelser
           </NavLink>
-          <NavLink to="/privatliv" className="nav-link">
+          <NavLink to="/privatliv" className="link-accent">
             Privatliv
           </NavLink> */}
         </div>
@@ -28,7 +28,7 @@ export default function Nav() {
           href="https://calendly.com/vpsystem1/30min"
           target="_blank"
           rel="noreferrer"
-          className="btn btn-primary"
+          className="btn-accent"
         >
           Book en samtale
         </a>
