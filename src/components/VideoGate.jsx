@@ -1,15 +1,17 @@
+// src/components/VideoGate.jsx
 import React, { useEffect, useMemo, useState } from "react";
 
 /**
- * Hard overlay VideoGate (Zapier)
+ * Hard overlay VideoGate (Zapier) – mobil-optimeret
  * - Feltnavne: Navn, Email, Telefon, Dato (da-DK).
- * - POST til Zapier webhook som application/x-www-form-urlencoded.
+ * - POST til Zapier som application/x-www-form-urlencoded.
  * - Låser op + husker via localStorage key "videoGate".
+ * - Mobil: container er 9:16 (høj), overlay kan scrolles.
  */
 export default function VideoGate({
   videoUrl = "https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479",
   zapierUrl = "https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/",
-  title = "Se hvordan systemet fungerer (5 min.)",
+  title = "Se hvordan systemet fungerer",
   subtitle = "Udfyld for at låse videoen op. Vi sender kun relevante opdateringer.",
 }) {
   const [navn, setNavn] = useState("");
@@ -22,7 +24,6 @@ export default function VideoGate({
 
   const validUrl = useMemo(() => String(videoUrl || "").trim(), [videoUrl]);
 
-  // Læs tidligere gate-status (din struktur)
   useEffect(() => {
     try {
       const raw = localStorage.getItem("videoGate");
@@ -68,7 +69,6 @@ export default function VideoGate({
       });
       if (!res.ok && res.type !== "opaque") throw new Error("Netværksfejl");
 
-      // samme struktur som du brugte før
       localStorage.setItem(
         "videoGate",
         JSON.stringify({ status: true, timestamp: Date.now() })
@@ -84,8 +84,9 @@ export default function VideoGate({
 
   return (
     <div className="card p-0 overflow-hidden">
-      {/* Video container */}
-      <div className="relative w-full" style={{ aspectRatio: "16 / 9" }}>
+      {/* Mobil: høj 9:16; fra sm og op: klassisk 16:9 */}
+      <div className="relative w-full aspect-[9/16] sm:aspect-[16/9]">
+        {/* Video */}
         <iframe
           src={validUrl}
           title="VPS video"
@@ -96,73 +97,76 @@ export default function VideoGate({
           allowFullScreen
         />
 
-        {/* HARD GATE overlay der dækker videoen */}
+        {/* HARD GATE overlay */}
         {!unlocked && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[#0b0c0e]/80 backdrop-blur-sm z-10">
-            <form
-              onSubmit={handleSubmit}
-              className="w-[92%] max-w-md rounded-xl border border-[var(--line)] bg-[var(--panel-2)] p-5 md:p-6"
-            >
-              <h3 className="h3 text-white">{title}</h3>
-              {subtitle && (
-                <p className="mt-2 text-[var(--ink-2)] text-sm">{subtitle}</p>
-              )}
+          <div
+            className="absolute inset-0 z-10 bg-[#0b0c0e]/80 backdrop-blur-sm flex"
+            /* vigtigst på mobil: lad indholdet kunne scrolles */
+          >
+            <div className="w-full h-full overflow-y-auto p-4 sm:p-6 flex items-center justify-center">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full max-w-sm rounded-xl border border-[var(--line)] bg-[var(--panel-2)] p-5"
+              >
+                <h3 className="h3 text-white">{title}</h3>
+                {subtitle && (
+                  <p className="mt-2 text-[var(--ink-2)] text-sm">{subtitle}</p>
+                )}
 
-              <div className="mt-4 flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={navn}
-                  onChange={(e) => setNavn(e.target.value)}
-                  placeholder="Navn"
-                  className="input w-full"
-                  autoComplete="name"
-                />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-mail"
-                  className="input w-full"
-                  autoComplete="email"
-                />
-                <input
-                  type="tel"
-                  value={telefon}
-                  onChange={(e) => setTelefon(e.target.value)}
-                  placeholder="Telefon (valgfri)"
-                  className="input w-full"
-                  autoComplete="tel"
-                />
-
-                <label className="text-sm text-[var(--ink-2)] flex items-start gap-2">
+                <div className="mt-4 flex flex-col gap-3">
                   <input
-                    type="checkbox"
-                    checked={accept}
-                    onChange={(e) => setAccept(e.target.checked)}
-                    className="mt-[3px]"
+                    type="text"
+                    value={navn}
+                    onChange={(e) => setNavn(e.target.value)}
+                    placeholder="Navn"
+                    className="input w-full py-3"
+                    autoComplete="name"
                   />
-                  Jeg giver samtykke til at modtage info om VPS og accepterer
-                  <a href="/privatliv" className="link ml-1">
-                    Privatlivspolitik
-                  </a>
-                  .
-                </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="E-mail"
+                    className="input w-full py-3"
+                    autoComplete="email"
+                  />
+                  <input
+                    type="tel"
+                    value={telefon}
+                    onChange={(e) => setTelefon(e.target.value)}
+                    placeholder="Telefon (valgfri)"
+                    className="input w-full py-3"
+                    autoComplete="tel"
+                  />
 
-                {error && <div className="text-rose-300 text-sm">{error}</div>}
+                  <label className="text-sm text-[var(--ink-2)] flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      checked={accept}
+                      onChange={(e) => setAccept(e.target.checked)}
+                      className="mt-[4px]"
+                    />
+                    Jeg giver samtykke til at modtage info om VPS og accepterer
+                    <a href="/privatliv" className="link ml-1">
+                      Privatlivspolitik
+                    </a>
+                    .
+                  </label>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary mt-1"
-                  disabled={sending}
-                >
-                  {sending ? "Gemmer..." : "Lås video op"}
-                </button>
+                  {error && (
+                    <div className="text-rose-300 text-sm">{error}</div>
+                  )}
 
-                <p className="text-xs text-[var(--muted)]">
-                  Dato gemmes automatisk. Vi deler ikke dine oplysninger.
-                </p>
-              </div>
-            </form>
+                  <button type="submit" className="btn btn-primary mt-1">
+                    {sending ? "Gemmer..." : "Lås video op"}
+                  </button>
+
+                  <p className="text-xs text-[var(--muted)]">
+                    Dato gemmes automatisk. Vi deler ikke dine oplysninger.
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
         )}
       </div>
