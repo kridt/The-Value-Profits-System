@@ -1,18 +1,16 @@
-// src/components/VideoGate.jsx
 import React, { useEffect, useMemo, useState } from "react";
 
 /**
- * Hard overlay VideoGate (Zapier) – mobil-optimeret
- * - Feltnavne: Navn, Email, Telefon, Dato (da-DK).
- * - POST til Zapier som application/x-www-form-urlencoded.
- * - Låser op + husker via localStorage key "videoGate".
- * - Mobil: container er 9:16 (høj), overlay kan scrolles.
+ * Hard overlay VideoGate (Zapier) – mobil-optimeret + accent
+ * - Felter: Navn, Email, Telefon, Dato (da-DK).
+ * - POST x-www-form-urlencoded til Zapier.
+ * - Husker unlock i localStorage key "videoGate".
  */
 export default function VideoGate({
   videoUrl = "https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479",
   zapierUrl = "https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/",
   title = "Se hvordan systemet fungerer",
-  subtitle = "Udfyld for at låse videoen op. Vi sender kun relevante opdateringer.",
+  subtitle = "Udfyld for at låse videoen op.",
 }) {
   const [navn, setNavn] = useState("");
   const [email, setEmail] = useState("");
@@ -84,9 +82,8 @@ export default function VideoGate({
 
   return (
     <div className="card p-0 overflow-hidden">
-      {/* Mobil: høj 9:16; fra sm og op: klassisk 16:9 */}
+      {/* Mobil: 9:16; >=sm: 16:9 */}
       <div className="relative w-full aspect-[9/16] sm:aspect-[16/9]">
-        {/* Video */}
         <iframe
           src={validUrl}
           title="VPS video"
@@ -97,18 +94,14 @@ export default function VideoGate({
           allowFullScreen
         />
 
-        {/* HARD GATE overlay */}
         {!unlocked && (
-          <div
-            className="absolute inset-0 z-10 bg-[#0b0c0e]/80 backdrop-blur-sm flex"
-            /* vigtigst på mobil: lad indholdet kunne scrolles */
-          >
+          <div className="absolute inset-0 z-10 bg-[#0b0c0e]/80 backdrop-blur-sm flex">
             <div className="w-full h-full overflow-y-auto p-4 sm:p-6 flex items-center justify-center">
               <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-sm rounded-xl border border-[var(--line)] bg-[var(--panel-2)] p-5"
+                className="w-full max-w-sm rounded-xl border border-[rgba(71,250,190,.35)] bg-[var(--panel-2)] p-5 shadow-[0_0_24px_rgba(71,250,190,.12)]"
               >
-                <h3 className="h3 text-white">{title}</h3>
+                <h3 className="h3 glow-accent">{title}</h3>
                 {subtitle && (
                   <p className="mt-2 text-[var(--ink-2)] text-sm">{subtitle}</p>
                 )}
@@ -119,7 +112,7 @@ export default function VideoGate({
                     value={navn}
                     onChange={(e) => setNavn(e.target.value)}
                     placeholder="Navn"
-                    className="input w-full py-3"
+                    className="input-accent w-full py-3"
                     autoComplete="name"
                   />
                   <input
@@ -127,7 +120,7 @@ export default function VideoGate({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="E-mail"
-                    className="input w-full py-3"
+                    className="input-accent w-full py-3"
                     autoComplete="email"
                   />
                   <input
@@ -135,7 +128,7 @@ export default function VideoGate({
                     value={telefon}
                     onChange={(e) => setTelefon(e.target.value)}
                     placeholder="Telefon (valgfri)"
-                    className="input w-full py-3"
+                    className="input-accent w-full py-3"
                     autoComplete="tel"
                   />
 
@@ -147,7 +140,7 @@ export default function VideoGate({
                       className="mt-[4px]"
                     />
                     Jeg giver samtykke til at modtage info om VPS og accepterer
-                    <a href="/privatliv" className="link ml-1">
+                    <a href="/privatliv" className="link-accent ml-1">
                       Privatlivspolitik
                     </a>
                     .
@@ -157,7 +150,7 @@ export default function VideoGate({
                     <div className="text-rose-300 text-sm">{error}</div>
                   )}
 
-                  <button type="submit" className="btn btn-primary mt-1">
+                  <button type="submit" className="btn-accent mt-1">
                     {sending ? "Gemmer..." : "Lås video op"}
                   </button>
 

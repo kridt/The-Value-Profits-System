@@ -78,7 +78,6 @@ export default function BetList() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [debug, setDebug] = useState(false);
-
   const dref = useRef(debug);
   useEffect(() => {
     dref.current = debug;
@@ -169,11 +168,11 @@ export default function BetList() {
     });
   }, [bets, stake, bankroll]);
 
-  /** UI — luftigere */
+  /** UI */
   return (
     <div className="space-y-6">
       {/* Filter/inputs */}
-      <div className="card p-6">
+      <div className="card-accent p-6">
         <div className="flex flex-wrap items-center gap-3">
           {availableMonths.map((m) => (
             <button
@@ -182,10 +181,8 @@ export default function BetList() {
                 setSelectedMonth(m.sheet);
                 setVisibleCount(12);
               }}
-              className={`px-3 py-2 rounded-md text-sm ${
-                selectedMonth === m.sheet
-                  ? "bg-white text-black"
-                  : "bg-[var(--panel-2)] border border-[var(--line)] text-[var(--ink-2)]"
+              className={`chip ${
+                selectedMonth === m.sheet ? "chip--active" : ""
               }`}
             >
               {m.label}
@@ -196,11 +193,7 @@ export default function BetList() {
               setSelectedMonth("Alle");
               setVisibleCount(12);
             }}
-            className={`px-3 py-2 rounded-md text-sm ${
-              selectedMonth === "Alle"
-                ? "bg-white text-black"
-                : "bg-[var(--panel-2)] border border-[var(--line)] text-[var(--ink-2)]"
-            }`}
+            className={`chip ${selectedMonth === "Alle" ? "chip--active" : ""}`}
           >
             Alle måneder
           </button>
@@ -211,24 +204,33 @@ export default function BetList() {
               type="number"
               value={bankroll}
               onChange={(e) => setBankroll(Number(e.target.value) || 0)}
-              className="input w-32 text-right"
+              className="input-accent w-32 text-right"
             />
-            <span className="text-sm text-[var(--muted)]">
+            <span className="text-sm text-accent font-semibold">
               1 unit = {stake} kr
             </span>
+
+            <label className="ml-4 text-xs text-[var(--muted)] hidden sm:flex items-center gap-1">
+              <input
+                type="checkbox"
+                checked={debug}
+                onChange={(e) => setDebug(e.target.checked)}
+              />
+              Debug
+            </label>
           </div>
         </div>
       </div>
 
-      {/* KPI + graf — mere luft og højere graf */}
+      {/* KPI + graf */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="card p-6">
+        <div className="card-accent p-6">
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[15px]">
             <div className="text-[var(--ink-2)]">Total væddemål</div>
-            <div className="font-semibold">{bets.length}</div>
+            <div className="font-semibold text-accent">{bets.length}</div>
 
             <div className="text-[var(--ink-2)]">Winrate</div>
-            <div className="font-semibold">
+            <div className="font-semibold text-accent">
               {Math.round(
                 (bets.filter((b) => b.status === "Vundet").length /
                   (bets.length || 1)) *
@@ -238,14 +240,14 @@ export default function BetList() {
             </div>
 
             <div className="text-[var(--ink-2)]">Gns. odds</div>
-            <div className="font-semibold">
+            <div className="font-semibold text-accent">
               {(
                 bets.reduce((a, b) => a + (b.odds || 0), 0) / (bets.length || 1)
               ).toFixed(2)}
             </div>
 
             <div className="text-[var(--ink-2)]">Gns. sats/spil</div>
-            <div className="font-semibold">
+            <div className="font-semibold text-accent">
               {kr(
                 bets.reduce((a, b) => a + (b.unit || 0) * stake, 0) /
                   (bets.length || 1)
@@ -257,16 +259,15 @@ export default function BetList() {
           </div>
 
           <p className="mt-5 text-base font-extrabold">
-            Simuleret saldo:{" "}
-            <span className="underline underline-offset-2">{kr(simSaldo)}</span>
+            Simuleret saldo: <span className="glow-accent">{kr(simSaldo)}</span>
           </p>
         </div>
 
-        <div className="card p-6">
-          <div className="h-[360px]">
+        <div className="card-accent p-6">
+          <div className="h-[380px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={history}>
-                <CartesianGrid stroke="#1a1f24" />
+                <CartesianGrid stroke="rgba(71,250,190,.18)" />
                 <XAxis
                   dataKey="index"
                   stroke="#8b929a"
@@ -279,7 +280,7 @@ export default function BetList() {
                 <Tooltip
                   contentStyle={{
                     background: "#0f1113",
-                    border: "1px solid #2b3137",
+                    border: "1px solid rgba(71,250,190,.35)",
                     borderRadius: "8px",
                     color: "#e9eef2",
                   }}
@@ -291,14 +292,14 @@ export default function BetList() {
                 />
                 <ReferenceLine
                   y={+bankroll || 0}
-                  stroke="#374151"
+                  stroke="rgba(71,250,190,.6)"
                   strokeDasharray="6 6"
                 />
                 <Line
                   type="monotone"
                   dataKey="saldo"
-                  stroke="#ffffff"
-                  strokeWidth={2}
+                  stroke="#47FABE"
+                  strokeWidth={2.5}
                   dot={false}
                   isAnimationActive
                   animationDuration={500}
@@ -309,7 +310,7 @@ export default function BetList() {
         </div>
       </div>
 
-      {/* Kort — færre pr. række og større mellemrum */}
+      {/* Kort */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {bets.slice(0, visibleCount).map((b, i) => {
           const indsats = stake * b.unit;
@@ -321,14 +322,14 @@ export default function BetList() {
             ? Math.round(indsats)
             : -Math.round(indsats);
           return (
-            <div key={i} className="card p-5">
+            <div key={i} className="card-accent p-5">
               <div className="flex items-baseline justify-between">
                 <p className="text-xs text-[var(--muted)]">{b.dato || "—"}</p>
                 <p className="text-xs font-semibold">
                   {res ? (
-                    <span className="text-emerald-400">Vundet</span>
+                    <span className="text-accent">Vundet</span>
                   ) : push ? (
-                    <span className="text-amber-300">Push</span>
+                    <span className="text-accent/80">Push</span>
                   ) : (
                     <span className="text-rose-300">{b.status}</span>
                   )}
@@ -340,7 +341,11 @@ export default function BetList() {
               <p className="text-sm text-[var(--muted)]">
                 Unit: {b.unit} • Indsats: {kr(indsats)}
               </p>
-              <p className="mt-1 text-base font-semibold">
+              <p
+                className={`mt-1 text-base font-semibold ${
+                  profit > 0 ? "text-accent" : ""
+                }`}
+              >
                 {profit > 0 ? "+" : ""}
                 {profit} kr
               </p>
@@ -353,7 +358,7 @@ export default function BetList() {
         <div className="text-center">
           <button
             onClick={() => setVisibleCount((v) => v + 9)}
-            className="btn btn-outline"
+            className="btn-outline-accent"
           >
             Vis flere væddemål
           </button>

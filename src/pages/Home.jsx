@@ -8,16 +8,16 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <main className="relative">
-      {/* Accent glow baggrunde */}
-      <div className="bg-glow top-20 left-10"></div>
-      <div className="bg-glow bottom-10 right-20"></div>
+      {/* Accent glows */}
+      <div className="bg-glow top-24 -left-10"></div>
+      <div className="bg-glow bottom-24 right-0"></div>
 
       {/* HERO */}
       <section className="container-xl pt-16 md:pt-20 relative z-10">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="h1">
-            Byg resultater hurtigere med et{" "}
-            <span className="glow-accent">enkelt, dokumenteret</span> system
+            Tjen <span className="glow-accent">+200.000 kr skattefrit</span> på
+            12 måneder ved at udnytte fejl i markedet.
           </h1>
           <p className="mt-4 text-lg text-[var(--ink-2)]">
             Disciplineret metode der udnytter markedsfejl (+EV) — uden content,
@@ -32,7 +32,7 @@ export default function Home() {
             >
               Ansøg & book samtale
             </a>
-            <a href="#video" className="btn btn-outline link-accent">
+            <a href="#video" className="btn-outline-accent">
               Se video
             </a>
           </div>
@@ -50,7 +50,7 @@ export default function Home() {
       {/* VIDEO GATE */}
       <section id="video" className="container-xl pt-12 relative z-10">
         <VideoGate
-          videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0"
+          videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
           title="Se hvordan systemet fungerer (5 min.)"
           subtitle="Udfyld for at låse videoen op."
         />
@@ -58,7 +58,9 @@ export default function Home() {
 
       {/* TESTIMONIALS */}
       <section id="testimonials" className="container-xl pt-12 relative z-10">
-        <Testimonials />
+        <div className="card-accent p-3 md:p-4">
+          <Testimonials />
+        </div>
       </section>
 
       {/* PERFORMANCE / BETLIST */}
@@ -72,7 +74,7 @@ export default function Home() {
         <BetList />
       </section>
 
-      {/* FAQ */}
+      {/* FAQ + CTA */}
       <section className="container-xl pt-16 relative z-10">
         <FAQ />
         <div className="mt-10 text-center">
@@ -80,6 +82,9 @@ export default function Home() {
             Stadig spørgsmål? Det tager 30 sekunder at ansøge — så tager vi en
             snak.
           </p>
+          <br />
+          <br />
+          <br />
           <a
             href="https://calendly.com/vpsystem1/30min"
             target="_blank"
