@@ -1,20 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-// import Checkout from "./pages/Checkout"; // hvis du har den
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Nav from "./components/Nav";
 
 export default function App() {
   return (
-    // Baggrund: lys accent-grid + animationslag
-    <div className="min-h-screen text-white bg-neo-green">
-      {/* Animationslag (kan duplikere for mere punch) */}
-      <div className="neo-cones pointer-events-none" />
-      <div className="neo-grid-sweep pointer-events-none" />
-      <div className="neo-twinkle pointer-events-none" />
-
+    <div className="min-h-screen">
       <Router>
+        <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/checkout" element={<Checkout />} /> */}
+          <Route path="/betingelser" element={<Terms />} />
+          <Route path="/privatliv" element={<Privacy />} />
         </Routes>
       </Router>
     </div>

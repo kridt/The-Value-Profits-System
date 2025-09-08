@@ -1,142 +1,171 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-export default function VideoGate() {
+/**
+ * Hard overlay VideoGate (Zapier)
+ * - Feltnavne: Navn, Email, Telefon, Dato (da-DK).
+ * - POST til Zapier webhook som application/x-www-form-urlencoded.
+ * - Låser op + husker via localStorage key "videoGate".
+ */
+export default function VideoGate({
+  videoUrl = "https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479",
+  zapierUrl = "https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/",
+  title = "Se hvordan systemet fungerer (5 min.)",
+  subtitle = "Udfyld for at låse videoen op. Vi sender kun relevante opdateringer.",
+}) {
   const [navn, setNavn] = useState("");
   const [email, setEmail] = useState("");
   const [telefon, setTelefon] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [gateTriggered, setGateTriggered] = useState(false);
+  const [accept, setAccept] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
+  const validUrl = useMemo(() => String(videoUrl || "").trim(), [videoUrl]);
+
+  // Læs tidligere gate-status (din struktur)
   useEffect(() => {
-    const gateStatus = localStorage.getItem("videoGate");
-    if (gateStatus) {
-      const parsed = JSON.parse(gateStatus);
-      const now = new Date().getTime();
-      if (now - parsed.timestamp < 24 * 60 * 60 * 1000) setFormSubmitted(true);
-    }
+    try {
+      const raw = localStorage.getItem("videoGate");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.status === true) setUnlocked(true);
+      }
+    } catch {}
   }, []);
+
+  const validate = () => {
+    if (!navn.trim()) return "Skriv dit navn.";
+    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+      return "Skriv en gyldig e-mail.";
+    if (telefon && !/^[0-9+\s-]{6,20}$/.test(telefon))
+      return "Ugyldigt telefonnummer.";
+    if (!accept) return "Du skal give samtykke for at fortsætte.";
+    return "";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new URLSearchParams();
-    formData.append("Navn", navn);
-    formData.append("Email", email);
-    formData.append("Telefon", telefon);
-    formData.append("Dato", new Date().toLocaleString("da-DK"));
+    const v = validate();
+    if (v) {
+      setError(v);
+      return;
+    }
+    setError("");
+    setSending(true);
+
     try {
-      const response = await fetch(
-        "https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formData.toString(),
-        }
-      );
-      if (!response.ok) throw new Error("Netværksfejl");
+      const formData = new URLSearchParams();
+      formData.append("Navn", navn.trim());
+      formData.append("Email", email.trim());
+      formData.append("Telefon", (telefon || "").trim());
+      formData.append("Dato", new Date().toLocaleString("da-DK"));
+
+      const res = await fetch(zapierUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
+        mode: "cors",
+      });
+      if (!res.ok && res.type !== "opaque") throw new Error("Netværksfejl");
+
+      // samme struktur som du brugte før
       localStorage.setItem(
         "videoGate",
-        JSON.stringify({ status: true, timestamp: new Date().getTime() })
+        JSON.stringify({ status: true, timestamp: Date.now() })
       );
-      setFormSubmitted(true);
+      setUnlocked(true);
     } catch (err) {
       console.error("Fejl ved afsendelse til Zapier:", err);
+      setError("Kunne ikke gemme din tilmelding. Prøv igen.");
+    } finally {
+      setSending(false);
     }
   };
 
-  const handlePlayClick = () => {
-    if (!formSubmitted) setGateTriggered(true);
-  };
-
   return (
-    <div className="w-full flex flex-col items-center mt-4 mb-4 px-4">
-      {formSubmitted ? (
-        <div className="w-full max-w-4xl aspect-video mb-6 card-neon border-sweep">
-          <iframe
-            src="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
-            width="100%"
-            height="100%"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-            title="Opdag hemmeligheden bag succesfuld sportsbetting!"
-            className="w-full h-full rounded-lg"
-          />
-        </div>
-      ) : (
-        <div
-          onClick={handlePlayClick}
-          className="w-full max-w-4xl aspect-video mb-6 surface glow-soft flex items-center justify-center cursor-pointer relative overflow-hidden border-sweep"
-        >
-          <iframe
-            src="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
-            width="100%"
-            height="100%"
-            frameBorder="0"
-            className="w-full h-full opacity-25 pointer-events-none"
-            title="Skjult video"
-          />
-          <div className="absolute inset-0 bg-black/45 flex items-center justify-center z-10">
-            {gateTriggered ? (
-              <form
-                onSubmit={handleSubmit}
-                className="w-full max-w-md card-neon border-sweep"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <h2 className="text-lg font-semibold mb-3">
-                  Udfyld for at få adgang til videoen:
-                </h2>
+    <div className="card p-0 overflow-hidden">
+      {/* Video container */}
+      <div className="relative w-full" style={{ aspectRatio: "16 / 9" }}>
+        <iframe
+          src={validUrl}
+          title="VPS video"
+          width="100%"
+          height="100%"
+          style={{ border: "none", position: "absolute", inset: 0 }}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+
+        {/* HARD GATE overlay der dækker videoen */}
+        {!unlocked && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#0b0c0e]/80 backdrop-blur-sm z-10">
+            <form
+              onSubmit={handleSubmit}
+              className="w-[92%] max-w-md rounded-xl border border-[var(--line)] bg-[var(--panel-2)] p-5 md:p-6"
+            >
+              <h3 className="h3 text-white">{title}</h3>
+              {subtitle && (
+                <p className="mt-2 text-[var(--ink-2)] text-sm">{subtitle}</p>
+              )}
+
+              <div className="mt-4 flex flex-col gap-3">
                 <input
                   type="text"
-                  placeholder="Navn"
                   value={navn}
                   onChange={(e) => setNavn(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 input-neon mb-3"
+                  placeholder="Navn"
+                  className="input w-full"
+                  autoComplete="name"
                 />
                 <input
                   type="email"
-                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 input-neon mb-3"
+                  placeholder="E-mail"
+                  className="input w-full"
+                  autoComplete="email"
                 />
                 <input
                   type="tel"
-                  placeholder="Telefonnummer"
                   value={telefon}
                   onChange={(e) => setTelefon(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 input-neon mb-4"
+                  placeholder="Telefon (valgfri)"
+                  className="input w-full"
+                  autoComplete="tel"
                 />
+
+                <label className="text-sm text-[var(--ink-2)] flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    checked={accept}
+                    onChange={(e) => setAccept(e.target.checked)}
+                    className="mt-[3px]"
+                  />
+                  Jeg giver samtykke til at modtage info om VPS og accepterer
+                  <a href="/privatliv" className="link ml-1">
+                    Privatlivspolitik
+                  </a>
+                  .
+                </label>
+
+                {error && <div className="text-rose-300 text-sm">{error}</div>}
+
                 <button
                   type="submit"
-                  className="w-full btn-neon py-2 font-semibold"
-                  data-halo
+                  className="btn btn-primary mt-1"
+                  disabled={sending}
                 >
-                  Få adgang til videoen
+                  {sending ? "Gemmer..." : "Lås video op"}
                 </button>
-              </form>
-            ) : (
-              <button
-                className="btn-neon px-6 py-3 text-base sm:text-lg rounded-full"
-                data-halo
-              >
-                Tryk for at se videoen
-              </button>
-            )}
-          </div>
-        </div>
-      )}
 
-      <a
-        href="https://calendly.com/vpsystem1/30min?month=2025-06"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-6 mb-7 btn-neon px-6 py-3 inline-block font-semibold"
-        data-halo
-      >
-        Book din samtale
-      </a>
+                <p className="text-xs text-[var(--muted)]">
+                  Dato gemmes automatisk. Vi deler ikke dine oplysninger.
+                </p>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

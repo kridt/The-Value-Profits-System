@@ -6,14 +6,14 @@ const images = ["img1.png"];
 export default function ImageRow() {
   return (
     <>
-      <div className="w-full py-14 flex justify-center">
+      <div className="w-full py-12 flex justify-center">
         <div className="flex flex-wrap gap-6 justify-center max-w-[1400px] px-4">
           {images.map((img, i) => (
             <img
               key={i}
               src={`/images/${img}`}
               alt={`screenshot-${i}`}
-              className="w-[1000px] rounded-xl surface hover:glow-strong transition-transform duration-300 hover:scale-[1.02]"
+              className="w-[1000px] rounded-xl card transition-transform duration-300 hover:scale-[1.02]"
             />
           ))}
         </div>

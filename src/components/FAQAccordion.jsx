@@ -2,49 +2,51 @@ import React, { useState } from "react";
 
 const faqData = [
   {
-    question: "Hvordan fungerer jeres garanti?",
-    answer:
-      "Vi tilbyder en resultatgaranti. Hvis du følger hele systemet og ikke tjener penge, får du alle pengene tilbage – så har vi arbejdet gratis.",
+    q: "Hvordan fungerer jeres garanti?",
+    a: "Følg hele systemet — tjener du ikke penge, får du pengene retur. Så har vi arbejdet gratis.",
   },
   {
-    question: "Skal jeg have erfaring for at kunne være med?",
-    answer:
-      "Overhovedet ikke. Systemet er bygget til både begyndere og øvede. Du bliver guidet trin for trin, med personlig hjælp hele vejen.",
+    q: "Skal jeg have erfaring?",
+    a: "Nej. Systemet er bygget til både begyndere og øvede. Du guides trin for trin.",
   },
   {
-    question: "Hvor hurtigt kan jeg komme i gang?",
-    answer:
-      "Typisk samme dag. Når du får adgang, modtager du onboarding, værktøjer, dine første VP bets og adgang til community.",
+    q: "Hvor hurtigt kan jeg i gang?",
+    a: "Typisk samme dag. Du får onboarding, værktøjer, dine første VP bets og community-adgang.",
   },
   {
-    question: "Er det her bare gambling?",
-    answer:
-      "Nej. Det er systematisk udnyttelse af markedsfejl baseret på statistik, strategi og +EV.",
+    q: "Er det her gambling?",
+    a: "+EV strategi. Vi udnytter markedsfejl baseret på data og disciplin — ikke “spil for sjov”.",
   },
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-  const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
-
+  const [open, setOpen] = useState(null);
   return (
-    <div className="mt-10 w-full max-w-2xl mx-auto space-y-4 text-left">
-      {faqData.map((item, i) => (
-        <div key={i} className="surface p-4 hover:glow transition border-sweep">
-          <button
-            onClick={() => toggle(i)}
-            className="flex justify-between items-center w-full text-left text-lg font-semibold"
-          >
-            <span>{item.question}</span>
-            <span className="text-gradient-neo">
-              {openIndex === i ? "−" : "+"}
-            </span>
-          </button>
-          {openIndex === i && (
-            <div className="mt-2 text-[#9CB6C1]">{item.answer}</div>
-          )}
-        </div>
-      ))}
+    <div className="max-w-2xl mx-auto">
+      <h2 className="h2 text-white">Ofte stillede spørgsmål</h2>
+      <div className="mt-6 space-y-3">
+        {faqData.map((item, i) => {
+          const active = open === i;
+          return (
+            <div key={i} className="faq-item">
+              <button
+                className="faq-q"
+                onClick={() => setOpen(active ? null : i)}
+              >
+                <span>{item.q}</span>
+                <span
+                  className={`transition-transform ${
+                    active ? "rotate-180" : ""
+                  }`}
+                >
+                  ⌄
+                </span>
+              </button>
+              {active && <div className="faq-a">{item.a}</div>}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

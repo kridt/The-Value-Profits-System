@@ -1,19 +1,15 @@
 import React from "react";
-import IframeResizer from "iframe-resizer-react";
 
 export default function Testimonials() {
   return (
-    <div className="py-16 px-4 flex justify-center">
-      <div className="w-full max-w-5xl card-neon border-sweep overflow-hidden">
-        <IframeResizer
-          src="https://embed-v2.testimonial.to/w/value-profits-system---gratis?animated=on&theme=dark&shadowColor=071b26&speed=1&tag=all&cc=off"
-          style={{
-            width: "1px",
-            minWidth: "100%",
-            border: "none",
-            height: "800px",
-          }}
-          className="w-full"
+    <div className="card p-3 md:p-4">
+      <div className="aspect-[16/9] w-full">
+        <iframe
+          src="https://embed-v2.testimonial.to/w/value-profits-system---gratis?animated=on&theme=dark&speed=1&tag=all&cc=off"
+          title="Anmeldelser"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
         />
       </div>
     </div>

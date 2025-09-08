@@ -1,63 +1,108 @@
-import React, { useState } from "react";
-import CookieConsent from "../components/CookieConsent";
-import VideoGate from "../components/VideoGate";
+import React from "react";
 import Testimonials from "../components/Testimonials";
 import FAQ from "../components/FAQAccordion";
-import ImageRow from "../components/ImageRow";
+import BetList from "../components/BetList";
+import VideoGate from "../components/VideoGate";
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  const [forceConsent, setForceConsent] = useState(false);
-
   return (
-    <div className="relative">
-      <CookieConsent forceOpen={forceConsent} />
-
-      <main className="mx-auto w-full max-w-[1100px] px-5 pt-16 pb-24">
-        <header className="text-center space-y-6 fade-in corner-lights">
-          <h1 className="text-4xl md:text-6xl font-semibold leading-tight">
-            Tjen{" "}
-            <span className="text-gradient-neo">+200.000 kr. skattefrit</span>
-            <br /> på 12 måneder ved at udnytte fejl i markedet
+    <main>
+      {/* HERO */}
+      <section className="container-xl pt-16 md:pt-20">
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="h1">
+            Byg resultater hurtigere med et{" "}
+            <span className="underline decoration-white decoration-4 underline-offset-8">
+              enkelt, dokumenteret
+            </span>{" "}
+            system
           </h1>
-
-          <p className="text-lg text-[#cfeaf1]">
-            Uden <span className="text-gradient-neo">content</span> eller{" "}
-            <span className="text-gradient-neo">salg</span>. En seriøs metode
-            til at udnytte{" "}
-            <span className="text-gradient-neo">fejl i sportsmarkedet</span>.
+          <p className="mt-4 text-lg text-[var(--ink-2)]">
+            Disciplineret metode der udnytter markedsfejl (+EV) — uden content,
+            uden salg. Gennemsigtighed og dokumenteret performance.
           </p>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <a
+              href="https://calendly.com/vpsystem1/30min"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary"
+            >
+              Ansøg & book samtale
+            </a>
+            <a href="#video" className="btn btn-outline">
+              Se video
+            </a>
+          </div>
+          <div className="mt-8 badge-row">
+            <span>Dokumenterede resultater</span>
+            <span>•</span>
+            <span>Penge-tilbage garanti</span>
+            <span>•</span>
+            <span>Fokus på +EV</span>
+          </div>
+          <div className="mt-10 divider" />
+        </div>
+      </section>
 
-          <p className="text-sm text-[#b5d4db]">
-            Hvordan mit team og jeg hjælper personer som dig med at tjene mellem{" "}
-            <span className="text-gradient-neo">10.000 og 100.000 kr.</span> om
-            måneden.
+      {/* VIDEO GATE */}
+      <section id="video" className="container-xl pt-12">
+        <VideoGate
+          videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+          zapierUrl="https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/"
+          title="Se hvordan systemet fungerer (5 min.)"
+          subtitle="Udfyld for at låse videoen op."
+        />
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="testimonials" className="container-xl pt-12">
+        <Testimonials />
+      </section>
+
+      {/* PERFORMANCE / BETLIST */}
+      <section className="container-xl pt-16">
+        <div className="max-w-3xl mx-auto text-center mb-8">
+          <h2 className="h2">Performance & gennemsigtighed</h2>
+          <p className="mt-3 text-[var(--ink-2)]">
+            Se historik, winrate, gennemsnitsodds og simuleret saldo. Justér
+            bankroll og se effekten med det samme.
           </p>
+        </div>
+        <BetList />
+      </section>
 
-          <div className="mt-6 divider-neon" />
-        </header>
+      {/* FAQ + CTA */}
+      <section className="container-xl pt-16">
+        <FAQ />
+        <div className="mt-10 text-center">
+          <p className="text-[var(--ink-2)]">
+            Stadig spørgsmål? Det tager 30 sekunder at ansøge — så tager vi en
+            snak.
+          </p>
+          <a
+            href="https://calendly.com/vpsystem1/30min"
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-primary mt-4"
+          >
+            Ansøg nu
+          </a>
+          <div className="mt-6 flex items-center justify-center gap-6 text-sm">
+            <Link to="/betingelser" className="link">
+              Handelsbetingelser
+            </Link>
+            <Link to="/privatliv" className="link">
+              Privatlivspolitik
+            </Link>
+          </div>
+        </div>
+      </section>
 
-        <section className="mt-10 fade-in">
-          <VideoGate />
-        </section>
-
-        <section className="mt-14 fade-in">
-          <Testimonials />
-        </section>
-
-        <section className="mt-4 fade-in">
-          <ImageRow />
-        </section>
-
-        <section className="mt-8 fade-in">
-          <FAQ />
-        </section>
-
-        <footer className="mt-10 text-center fade-in">
-          <button onClick={() => setForceConsent(true)} className="link-neon">
-            Ændr dine cookie-præferencer
-          </button>
-        </footer>
-      </main>
-    </div>
+      <footer className="container-xl py-14 text-center text-[var(--muted)]">
+        © {new Date().getFullYear()} Value Profits System
+      </footer>
+    </main>
   );
 }
