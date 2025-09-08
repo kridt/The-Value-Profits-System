@@ -78,6 +78,15 @@ export default function BetList() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [debug, setDebug] = useState(false);
+  const wonCount = useMemo(
+    () => bets.filter((b) => b.status === "Vundet").length,
+    [bets]
+  );
+  const lostCount = useMemo(
+    () => bets.filter((b) => b.status === "Tabt").length,
+    [bets]
+  );
+
   const dref = useRef(debug);
   useEffect(() => {
     dref.current = debug;
@@ -229,14 +238,15 @@ export default function BetList() {
             <div className="text-[var(--ink-2)]">Total væddemål</div>
             <div className="font-semibold text-accent">{bets.length}</div>
 
+            <div className="text-[var(--ink-2)]">Vundet</div>
+            <div className="font-semibold text-accent">{wonCount}</div>
+
+            <div className="text-[var(--ink-2)]">Tabt</div>
+            <div className="font-semibold">{lostCount}</div>
+
             <div className="text-[var(--ink-2)]">Winrate</div>
             <div className="font-semibold text-accent">
-              {Math.round(
-                (bets.filter((b) => b.status === "Vundet").length /
-                  (bets.length || 1)) *
-                  100
-              ) || 0}
-              %
+              {Math.round((wonCount / (bets.length || 1)) * 100) || 0}%
             </div>
 
             <div className="text-[var(--ink-2)]">Gns. odds</div>

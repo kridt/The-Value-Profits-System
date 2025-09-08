@@ -38,11 +38,12 @@ export default function Home() {
           </div>
           <div className="mt-8 badge-row text-accent">
             <span>Dokumenterede resultater</span>
-            <span>•</span>
+            <span className="badge-sep">•</span>
             <span>Penge-tilbage garanti</span>
-            <span>•</span>
+            <span className="badge-sep">•</span>
             <span>Fokus på +EV</span>
           </div>
+
           <div className="mt-10 divider" />
         </div>
       </section>
