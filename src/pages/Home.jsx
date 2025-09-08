@@ -51,8 +51,8 @@ export default function Home() {
         <VideoGate
           videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
           zapierUrl="https://hooks.zapier.com/hooks/catch/23383335/u3qb9o1/"
-          title="Se hvordan systemet fungerer (5 min.)"
-          subtitle="Udfyld for at låse videoen op."
+          title="Se hvordan systemet fungerer"
+          subtitle="Udfyld dine informationer."
         />
       </section>
 
