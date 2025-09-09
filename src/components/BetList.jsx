@@ -1,3 +1,4 @@
+// src/components/BetList.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import {
@@ -20,7 +21,7 @@ const availableMonths = [
   { label: "September", sheet: "September" },
 ];
 
-/** Hjælpere (robust parsing) */
+/** Hjælpere */
 const canon = (s) =>
   String(s || "")
     .toLowerCase()
@@ -69,7 +70,6 @@ const kr = (n) =>
   }).format(Math.round(n));
 
 export default function BetList() {
-  /** State */
   const [selectedMonth, setSelectedMonth] = useState("September");
   const [bankroll, setBankroll] = useState(10000);
   const [stake, setStake] = useState(500);
@@ -78,28 +78,17 @@ export default function BetList() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [debug, setDebug] = useState(false);
-  const wonCount = useMemo(
-    () => bets.filter((b) => b.status === "Vundet").length,
-    [bets]
-  );
-  const lostCount = useMemo(
-    () => bets.filter((b) => b.status === "Tabt").length,
-    [bets]
-  );
-
   const dref = useRef(debug);
   useEffect(() => {
     dref.current = debug;
   }, [debug]);
   const log = (...a) => dref.current && console.log("[BetList]", ...a);
 
-  /** Stake = 5% af bankroll */
   useEffect(() => {
     const s = Math.max(1, Math.round((+bankroll || 0) * 0.05));
     setStake(s);
   }, [bankroll]);
 
-  /** Hent & normalisér data */
   useEffect(() => {
     let dead = false;
     const fetchMonth = async (sheet) => {
@@ -120,8 +109,6 @@ export default function BetList() {
         } else {
           rows = await fetchMonth(selectedMonth);
         }
-        if (rows.length) log("Headers:", Object.keys(rows[0]));
-
         const normalized = rows
           .map((r, idx) => {
             const dato = getField(r, ["dato", "date"]);
@@ -156,7 +143,6 @@ export default function BetList() {
     };
   }, [selectedMonth]);
 
-  /** Beregninger */
   const simSaldo = useMemo(() => {
     let saldo = +bankroll || 0;
     bets.forEach((b) => {
@@ -167,6 +153,11 @@ export default function BetList() {
     return Math.round(saldo);
   }, [bets, stake, bankroll]);
 
+  const roiPct = useMemo(() => {
+    if (!bankroll) return 0;
+    return ((simSaldo - bankroll) / bankroll) * 100;
+  }, [simSaldo, bankroll]);
+
   const history = useMemo(() => {
     let saldo = +bankroll || 0;
     return bets.map((b, i) => {
@@ -176,6 +167,23 @@ export default function BetList() {
       return { index: i + 1, saldo: Math.round(saldo) };
     });
   }, [bets, stake, bankroll]);
+
+  /* Skeleton components */
+  const SkeletonCard = () => (
+    <div className="card-accent p-5 animate-pulse">
+      <div className="h-4 bg-[var(--line)] rounded w-1/3 mb-3"></div>
+      <div className="h-3 bg-[var(--line)] rounded w-1/2 mb-2"></div>
+      <div className="h-3 bg-[var(--line)] rounded w-1/4"></div>
+    </div>
+  );
+
+  const SkeletonGrid = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+  );
 
   /** UI */
   return (
@@ -218,161 +226,191 @@ export default function BetList() {
             <span className="text-sm text-accent font-semibold">
               1 unit = {stake} kr
             </span>
-
-            {/* <label className="ml-4 text-xs text-[var(--muted)] hidden sm:flex items-center gap-1">
-              <input
-                type="checkbox"
-                checked={debug}
-                onChange={(e) => setDebug(e.target.checked)}
-              />
-              Debug
-            </label> */}
           </div>
         </div>
       </div>
 
-      {/* KPI + graf */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="card-accent p-6">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[15px]">
-            <div className="text-[var(--ink-2)]">Total væddemål</div>
-            <div className="font-semibold text-accent">{bets.length}</div>
-
-            <div className="text-[var(--ink-2)]">Vundet</div>
-            <div className="font-semibold text-accent">{wonCount}</div>
-
-            <div className="text-[var(--ink-2)]">Tabt</div>
-            <div className="font-semibold">{lostCount}</div>
-
-            <div className="text-[var(--ink-2)]">Winrate</div>
-            <div className="font-semibold text-accent">
-              {Math.round((wonCount / (bets.length || 1)) * 100) || 0}%
+      {loading ? (
+        <>
+          {/* KPI skeleton */}
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="card-accent p-6 animate-pulse">
+              <div className="h-4 bg-[var(--line)] rounded w-1/3 mb-3"></div>
+              <div className="h-3 bg-[var(--line)] rounded w-1/2 mb-2"></div>
+              <div className="h-3 bg-[var(--line)] rounded w-1/4"></div>
             </div>
-
-            <div className="text-[var(--ink-2)]">Gns. odds</div>
-            <div className="font-semibold text-accent">
-              {(
-                bets.reduce((a, b) => a + (b.odds || 0), 0) / (bets.length || 1)
-              ).toFixed(2)}
+            <div className="card-accent p-6 animate-pulse">
+              <div className="h-full bg-[var(--line)] rounded"></div>
             </div>
-
-            <div className="text-[var(--ink-2)]">Gns. sats/spil</div>
-            <div className="font-semibold text-accent">
-              {kr(
-                bets.reduce((a, b) => a + (b.unit || 0) * stake, 0) /
-                  (bets.length || 1)
-              )}
-            </div>
-
-            <div className="text-[var(--ink-2)]">Aktiv måned</div>
-            <div className="font-semibold">{selectedMonth}</div>
           </div>
 
-          <p className="mt-5 text-base font-extrabold">
-            Simuleret saldo: <span className="glow-accent">{kr(simSaldo)}</span>
-          </p>
-        </div>
+          {/* Bet cards skeleton */}
+          <SkeletonGrid />
+        </>
+      ) : (
+        <>
+          {/* KPI + graf */}
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="card-accent p-6">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[15px]">
+                <div className="text-[var(--ink-2)]">Total væddemål</div>
+                <div className="font-semibold text-accent">{bets.length}</div>
 
-        <div className="card-accent p-6">
-          <div className="h-[380px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={history}>
-                <CartesianGrid stroke="rgba(71,250,190,.18)" />
-                <XAxis
-                  dataKey="index"
-                  stroke="#8b929a"
-                  tick={{ fill: "#8b929a", fontSize: 12 }}
-                />
-                <YAxis
-                  stroke="#8b929a"
-                  tick={{ fill: "#8b929a", fontSize: 12 }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: "#0f1113",
-                    border: "1px solid rgba(71,250,190,.35)",
-                    borderRadius: "8px",
-                    color: "#e9eef2",
-                  }}
-                  labelStyle={{ color: "#ffffff", fontWeight: 800 }}
-                  formatter={(v, name) =>
-                    name === "saldo" ? [`${v} kr`, "Saldo"] : [v, name]
-                  }
-                  labelFormatter={(l) => `Væddemål #${l}`}
-                />
-                <ReferenceLine
-                  y={+bankroll || 0}
-                  stroke="rgba(71,250,190,.6)"
-                  strokeDasharray="6 6"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="saldo"
-                  stroke="#47FABE"
-                  strokeWidth={2.5}
-                  dot={false}
-                  isAnimationActive
-                  animationDuration={500}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
+                <div className="text-[var(--ink-2)]">Vundet</div>
+                <div className="font-semibold text-accent">
+                  {bets.filter((b) => b.status === "Vundet").length}
+                </div>
 
-      {/* Kort */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-        {bets.slice(0, visibleCount).map((b, i) => {
-          const indsats = stake * b.unit;
-          const res = b.status === "Vundet";
-          const push = b.status === "Push";
-          const profit = res
-            ? Math.round(b.odds * indsats)
-            : push
-            ? Math.round(indsats)
-            : -Math.round(indsats);
-          return (
-            <div key={i} className="card-accent p-5">
-              <div className="flex items-baseline justify-between">
-                <p className="text-xs text-[var(--muted)]">{b.dato || "—"}</p>
-                <p className="text-xs font-semibold">
-                  {res ? (
-                    <span className="text-accent">Vundet</span>
-                  ) : push ? (
-                    <span className="text-accent/80">Push</span>
-                  ) : (
-                    <span className="text-rose-300">{b.status}</span>
+                <div className="text-[var(--ink-2)]">Tabt</div>
+                <div className="font-semibold">
+                  {bets.filter((b) => b.status === "Tabt").length}
+                </div>
+
+                <div className="text-[var(--ink-2)]">Winrate</div>
+                <div className="font-semibold text-accent">
+                  {Math.round(
+                    (bets.filter((b) => b.status === "Vundet").length /
+                      (bets.length || 1)) *
+                      100
+                  ) || 0}
+                  %
+                </div>
+
+                <div className="text-[var(--ink-2)]">ROI %</div>
+                <div className="font-semibold text-accent">
+                  {roiPct.toFixed(1)}%
+                </div>
+
+                <div className="text-[var(--ink-2)]">Gns. odds</div>
+                <div className="font-semibold text-accent">
+                  {(
+                    bets.reduce((a, b) => a + (b.odds || 0), 0) /
+                    (bets.length || 1)
+                  ).toFixed(2)}
+                </div>
+
+                <div className="text-[var(--ink-2)]">Gns. sats/spil</div>
+                <div className="font-semibold text-accent">
+                  {kr(
+                    bets.reduce((a, b) => a + (b.unit || 0) * stake, 0) /
+                      (bets.length || 1)
                   )}
-                </p>
+                </div>
+
+                <div className="text-[var(--ink-2)]">Aktiv måned</div>
+                <div className="font-semibold">{selectedMonth}</div>
               </div>
-              <p className="mt-1 text-sm text-[var(--ink-2)]">
-                Odds: {b.odds?.toString().replace(".", ",")}
-              </p>
-              <p className="text-sm text-[var(--muted)]">
-                Unit: {b.unit} • Indsats: {kr(indsats)}
-              </p>
-              <p
-                className={`mt-1 text-base font-semibold ${
-                  profit > 0 ? "text-accent" : ""
-                }`}
-              >
-                {profit > 0 ? "+" : ""}
-                {profit} kr
+
+              <p className="mt-5 text-base font-extrabold">
+                Din saldo ville være:{" "}
+                <span className="glow-accent">{kr(simSaldo)}</span>
               </p>
             </div>
-          );
-        })}
-      </div>
 
-      {visibleCount < bets.length && (
-        <div className="text-center">
-          <button
-            onClick={() => setVisibleCount((v) => v + 9)}
-            className="btn-outline-accent"
-          >
-            Vis flere væddemål
-          </button>
-        </div>
+            <div className="card-accent p-6">
+              <div className="h-[380px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={history}>
+                    <CartesianGrid stroke="rgba(71,250,190,.18)" />
+                    <XAxis
+                      dataKey="index"
+                      stroke="#8b929a"
+                      tick={{ fill: "#8b929a", fontSize: 12 }}
+                    />
+                    <YAxis
+                      stroke="#8b929a"
+                      tick={{ fill: "#8b929a", fontSize: 12 }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        background: "#0f1113",
+                        border: "1px solid rgba(71,250,190,.35)",
+                        borderRadius: "8px",
+                        color: "#e9eef2",
+                      }}
+                      labelStyle={{ color: "#ffffff", fontWeight: 800 }}
+                      formatter={(v, name) =>
+                        name === "saldo" ? [`${v} kr`, "Saldo"] : [v, name]
+                      }
+                      labelFormatter={(l) => `Væddemål #${l}`}
+                    />
+                    <ReferenceLine
+                      y={+bankroll || 0}
+                      stroke="rgba(71,250,190,.6)"
+                      strokeDasharray="6 6"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="saldo"
+                      stroke="#47FABE"
+                      strokeWidth={2.5}
+                      dot={false}
+                      isAnimationActive
+                      animationDuration={500}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Kort */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {bets.slice(0, visibleCount).map((b, i) => {
+              const indsats = stake * b.unit;
+              const res = b.status === "Vundet";
+              const push = b.status === "Push";
+              const profit = res
+                ? Math.round(b.odds * indsats)
+                : push
+                ? Math.round(indsats)
+                : -Math.round(indsats);
+              return (
+                <div key={i} className="card-accent p-5">
+                  <div className="flex items-baseline justify-between">
+                    <p className="text-xs text-[var(--muted)]">
+                      {b.dato || "—"}
+                    </p>
+                    <p className="text-xs font-semibold">
+                      {res ? (
+                        <span className="text-accent">Vundet</span>
+                      ) : push ? (
+                        <span className="text-accent/80">Push</span>
+                      ) : (
+                        <span className="text-rose-300">{b.status}</span>
+                      )}
+                    </p>
+                  </div>
+                  <p className="mt-1 text-sm text-[var(--ink-2)]">
+                    Odds: {b.odds?.toString().replace(".", ",")}
+                  </p>
+                  <p className="text-sm text-[var(--muted)]">
+                    Unit: {b.unit} • Indsats: {kr(indsats)}
+                  </p>
+                  <p
+                    className={`mt-1 text-base font-semibold ${
+                      profit > 0 ? "text-accent" : ""
+                    }`}
+                  >
+                    {profit > 0 ? "+" : ""}
+                    {profit} kr
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {visibleCount < bets.length && (
+            <div className="text-center">
+              <button
+                onClick={() => setVisibleCount((v) => v + 9)}
+                className="btn-outline-accent"
+              >
+                Vis flere væddemål
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
