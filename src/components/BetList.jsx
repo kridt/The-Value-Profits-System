@@ -73,7 +73,7 @@ const kr = (n) =>
 export default function BetList() {
   const [selectedMonth, setSelectedMonth] = useState("September");
   const [bankroll, setBankroll] = useState(10000);
-  const [stake, setStake] = useState(500);
+  const [stake, setStake] = useState(400);
   const [bets, setBets] = useState([]);
   const [visibleCount, setVisibleCount] = useState(12);
   const [loading, setLoading] = useState(false);
