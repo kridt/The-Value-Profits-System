@@ -16,7 +16,7 @@ export default function VideoGate({
   const [email, setEmail] = useState("");
   const [telefon, setTelefon] = useState("");
   const [accept, setAccept] = useState(false);
-  const [unlocked, setUnlocked] = useState(true);
+  const [unlocked, setUnlocked] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
