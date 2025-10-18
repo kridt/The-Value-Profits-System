@@ -10,12 +10,12 @@ const faqData = [
     a: "Nej. Systemet er bygget til både begyndere og øvede. Du guides trin for trin.",
   },
   {
-    q: "Hvor hurtigt kan jeg i gang?",
+    q: "Hvor hurtigt kan jeg komme i gang?",
     a: "Typisk samme dag. Du får onboarding, værktøjer, dine første VP bets og community-adgang.",
   },
   {
     q: "Er det her gambling?",
-    a: "+EV strategi. Vi udnytter markedsfejl baseret på data og disciplin — ikke “spil for sjov”.",
+    a: "Nej.+EV er en strategi. Vi udnytter markedsfejl baseret på data og disciplin — ikke “spil for sjov”.",
   },
 ];
 
