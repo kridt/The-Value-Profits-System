@@ -33,6 +33,21 @@ export default function Home() {
             værktøjer og community.
           </p>
 
+          {/* VIDEO GATE */}
+          <section id="video" className="container-xl pt-16 relative z-10">
+            {/* <div className="max-w-3xl mx-auto text-center mb-8">
+              <h2 className="h2 glow-accent">Se systemet i aktion</h2>
+              <p className="mt-3 text-[var(--ink-2)]">
+                20 minutters video der viser dig præcis hvordan metoden fungerer
+              </p>
+            </div> */}
+            <VideoGate
+              videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+              title="Lås videoen op"
+              subtitle="Indtast din email for at se den komplette demo"
+            />
+          </section>
+
           {/* CTA Buttons */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 scale-75 ">
             <a
@@ -41,13 +56,9 @@ export default function Home() {
               rel="noreferrer"
               className="btn-accent text-lg px-6 py-3"
             >
-              Book gratis demo (30 min)
-            </a>
-            <a href="#video" className="btn-outline-accent text-lg px-8 py-4">
-              Se hvordan det virker
+              Book en afklaringssamtale
             </a>
           </div>
-
           {/* Social proof badges */}
           <div className="mt-10 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
             <div className="text-center">
@@ -96,21 +107,6 @@ export default function Home() {
 
       {/* HOW IT WORKS */}
       <HowItWorks />
-
-      {/* VIDEO GATE */}
-      <section id="video" className="container-xl pt-16 relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-8">
-          <h2 className="h2 glow-accent">Se systemet i aktion</h2>
-          <p className="mt-3 text-[var(--ink-2)]">
-            20 minutters video der viser dig præcis hvordan metoden fungerer
-          </p>
-        </div>
-        <VideoGate
-          videoUrl="https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
-          title="Lås videoen op"
-          subtitle="Indtast din email for at se den komplette demo"
-        />
-      </section>
 
       {/* SKOOL COMMUNITY */}
       <SkoolCommunity />

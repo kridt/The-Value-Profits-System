@@ -88,7 +88,7 @@ export default function VideoGate({
           src={validUrl}
           title="VPS video"
           width="100%"
-          height="100%"
+          height="50%"
           style={{ border: "none", position: "absolute", inset: 0 }}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
