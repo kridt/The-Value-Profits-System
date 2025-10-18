@@ -15,7 +15,7 @@ export default function Home() {
       <div className="bg-glow bottom-24 right-0"></div>
 
       {/* HERO */}
-      <section className="container-xl pt-16 md:pt-20 relative z-10">
+      <section className="container-xl pt-8 md:pt-20 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           {/* Trust badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-sm font-bold mb-6">
@@ -23,23 +23,23 @@ export default function Home() {
             <span>1000+ Medlemmer • Dokumenteret Vækst</span>
           </div>
 
-          <h1 className="h1">
+          <h1 className="h2">
             Lær <span className="glow-accent">Value Betting</span> og tjen penge
             på sportsbetting
           </h1>
-          <p className="mt-6 text-xl text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-lg text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
             En dokumenteret, disciplineret strategi til at identificere +EV
             væddemål og bygge langsigtet profit. Få adgang til komplet kursus,
             værktøjer og community.
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 scale-75 ">
             <a
               href="https://calendly.com/vpsystem1/30min"
               target="_blank"
               rel="noreferrer"
-              className="btn-accent text-lg px-8 py-4"
+              className="btn-accent text-lg px-6 py-3"
             >
               Book gratis demo (30 min)
             </a>
