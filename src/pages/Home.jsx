@@ -27,7 +27,7 @@ export default function Home() {
             Lær <span className="glow-accent">Value Betting</span> og tjen penge
             på sportsbetting
           </h1>
-          <p className="mt-6 text-lg text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-sm text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
             En dokumenteret, disciplineret strategi til at identificere +EV
             væddemål og bygge langsigtet profit. Få adgang til komplet kursus,
             værktøjer og community.
