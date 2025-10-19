@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export default function SEO({
   title = "Value Betting System | Lær Value Betting & Tjen Penge på Sportsbetting",
@@ -10,7 +9,7 @@ export default function SEO({
   schema = null
 }) {
   return (
-    <Helmet>
+    <>
       {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="title" content={title} />
@@ -38,6 +37,6 @@ export default function SEO({
           {JSON.stringify(schema)}
         </script>
       )}
-    </Helmet>
+    </>
   );
 }
