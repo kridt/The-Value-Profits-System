@@ -1,15 +1,31 @@
 import React from "react";
 import Testimonials from "../components/Testimonials";
+import TestimonialCards from "../components/TestimonialCards";
 import FAQ from "../components/FAQAccordion";
 import BetList from "../components/BetList";
 import VideoGate from "../components/VideoGate";
 import HowItWorks from "../components/HowItWorks";
 import SkoolCommunity from "../components/SkoolCommunity";
+import HeroWithAvatars from "../components/HeroWithAvatars";
+import SEO from "../components/SEO";
+import { organizationSchema, websiteSchema, courseSchema, faqSchema } from "../utils/schema";
 import { Link } from "react-router-dom";
 
 export default function Home() {
+  const combinedSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      organizationSchema,
+      websiteSchema,
+      courseSchema,
+      faqSchema
+    ]
+  };
+
   return (
-    <main className="relative">
+    <>
+      <SEO schema={combinedSchema} />
+      <div className="relative">
       {/* Accent glows */}
       <div className="bg-glow top-24 -left-10"></div>
       <div className="bg-glow bottom-24 right-0"></div>
@@ -17,20 +33,17 @@ export default function Home() {
       {/* HERO */}
       <section className="container-xl pt-8 md:pt-20 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
-          {/* Trust badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-sm font-bold mb-6">
-            <span>✓</span>
-            <span>1000+ Medlemmer • Dokumenteret Vækst</span>
-          </div>
+          {/* Hero with Avatars */}
+          <HeroWithAvatars />
 
-          <h1 className="h2">
-            Lær <span className="glow-accent">Value Betting</span> og tjen penge
-            på sportsbetting
+          {/* Main Headline */}
+          <h1 className="h1 mb-6">
+            Lær <span className="glow-accent">Value Betting</span><br />
+            <span className="text-[var(--ink)]">og tjen penge på sportsbetting</span>
           </h1>
-          <p className="mt-6 text-sm text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
-            En dokumenteret, disciplineret strategi til at identificere +EV
-            væddemål og bygge langsigtet profit. Få adgang til komplet kursus,
-            værktøjer og community.
+
+          <p className="mt-6 text-lg text-[var(--ink-2)] max-w-2xl mx-auto leading-relaxed">
+            En dokumenteret, disciplineret strategi til at identificere <span className="text-[var(--accent)] font-semibold">+EV væddemål</span> og bygge langsigtet profit. Få adgang til komplet kursus, værktøjer og community.
           </p>
 
           {/* VIDEO GATE */}
@@ -111,16 +124,28 @@ export default function Home() {
       {/* SKOOL COMMUNITY */}
       <SkoolCommunity />
 
-      {/* TESTIMONIALS */}
+      {/* TESTIMONIALS - New Design */}
       <section id="testimonials" className="container-xl pt-16 relative z-10">
+        <TestimonialCards />
+      </section>
+
+      {/* REAL RESULTS SHOWCASE */}
+      <section className="container-xl pt-16 relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-8">
-          <h2 className="h2 glow-accent">Hvad siger vores medlemmer?</h2>
+          <h2 className="h2 glow-accent">Dokumenterede resultater</h2>
           <p className="mt-3 text-[var(--ink-2)]">
-            Se anmeldelser fra rigtige medlemmer der bruger systemet
+            Se rigtige skærmbilleder fra vores medlemmer
           </p>
         </div>
-        <div className="card-accent p-3 md:p-4">
-          <Testimonials />
+        <div className="card-modern p-6 rounded-2xl">
+          <img
+            src="/images/img1.png"
+            alt="Dokumenterede resultater fra Value Profits System medlemmer viser konsistent profit gennem value betting strategi"
+            className="w-full rounded-xl shadow-2xl"
+            loading="lazy"
+            width="1200"
+            height="800"
+          />
         </div>
       </section>
 
@@ -190,6 +215,7 @@ export default function Home() {
       <footer className="container-xl py-14 text-center text-[var(--muted)] relative z-10">
         © {new Date().getFullYear()} Value Profits System
       </footer>
-    </main>
+    </div>
+    </>
   );
 }

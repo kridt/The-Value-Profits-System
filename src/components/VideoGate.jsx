@@ -81,14 +81,14 @@ export default function VideoGate({
   };
 
   return (
-    <div className="card p-0 overflow-hidden">
+    <div className="relative w-full">
       {/* Mobil: 9:16; >=sm: 16:9 */}
-      <div className="relative w-full aspect-[9/16] sm:aspect-[16/9]">
+      <div className="relative w-full aspect-[9/16] sm:aspect-[16/9] rounded-xl overflow-hidden">
         <iframe
           src={validUrl}
           title="VPS video"
           width="100%"
-          height="50%"
+          height="100%"
           style={{ border: "none", position: "absolute", inset: 0 }}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen

@@ -1,7 +1,14 @@
 import React from "react";
 import BetList from "./BetList";
 
-const images = ["img1.png"];
+const images = [
+  {
+    src: "img1.png",
+    alt: "Dokumenterede resultater fra Value Profits System medlemmer viser konsistent profit gennem value betting strategi med live chat beskeder og betting gevinster",
+    width: 1200,
+    height: 800
+  }
+];
 
 export default function ImageRow() {
   return (
@@ -11,8 +18,12 @@ export default function ImageRow() {
           {images.map((img, i) => (
             <img
               key={i}
-              src={`/images/${img}`}
-              alt={`screenshot-${i}`}
+              src={`/images/${img.src}`}
+              alt={img.alt}
+              width={img.width}
+              height={img.height}
+              loading="lazy"
+              decoding="async"
               className="w-[1000px] rounded-xl card transition-transform duration-300 hover:scale-[1.02]"
             />
           ))}

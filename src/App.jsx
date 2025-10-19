@@ -1,19 +1,38 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
+import { lazy, Suspense } from "react";
 import Nav from "./components/Nav";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("./pages/Home"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-accent text-lg">Indlæser...</div>
+  </div>
+);
 
 export default function App() {
   return (
     <div className="min-h-screen">
+      {/* Skip to main content link for accessibility */}
+      <a href="#main-content" className="skip-link">
+        Spring til hovedindhold
+      </a>
+
       <Router>
         <Nav />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/betingelser" element={<Terms />} />
-          <Route path="/privatliv" element={<Privacy />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <main id="main-content" tabIndex={-1}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/betingelser" element={<Terms />} />
+              <Route path="/privatliv" element={<Privacy />} />
+            </Routes>
+          </main>
+        </Suspense>
       </Router>
     </div>
   );
