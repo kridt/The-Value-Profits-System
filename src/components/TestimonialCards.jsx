@@ -2,41 +2,53 @@ import React from "react";
 
 const testimonialsData = [
   {
-    name: "Sofie",
-    quote: "Asger, du sagde det ville tage lidt tid – men efter 3 uger er jeg allerede i profit! +3.800 kr og min første dag fuldt kontrol. Tak for den ekstra hjælp du har givet!",
+    name: "Anne",
+    img: 1,
+    quote:
+      "Vil hellere end gerne hjælpe, med at dele ud af oplevelsen. Indtil videre har jeg,  4000 ca på 365, 5000 på Unibet, 1500 på MrGreen Og ja, de 6000 fra Expekt. Tak for goodie bag, den ser jeg frem til 🥳🥰",
     stars: 5,
-    gradient: "from-rose-500/20 to-purple-500/20"
+    gradient: "from-rose-500/20 to-purple-500/20",
   },
   {
-    name: "Casper",
-    quote: "Jeg lavede mit første VP bet for 14 dage siden, og nu sidder jeg med 2.100 kr ekstra på kontoen. Det er faktisk ret vildt, hvor simpelt det føles.",
+    name: "Patrick",
+    img: 2,
+    quote:
+      "På blot 2 uger!! Jeg startede det her forløb for ca. 1 måned siden hvor jeg købte presale og kunne ikke vente med at komme i gang den 1. Juli! Nu efter 14 dage har jeg laver 175% profit ca. af min portfølje! Og jeg bliver ved med at gøre min konto større og større! Sååå kæmpe anbefaling herfra og et fantastisk team hele vejen igennem! 😅💪",
     stars: 5,
-    gradient: "from-blue-500/20 to-cyan-500/20"
+    gradient: "from-blue-500/20 to-cyan-500/20",
   },
   {
-    name: "Stefan",
-    quote: "Bro jeg har ikke engang haft tid til at følge med hver dag, hvilket også beted at jeg gik lidt i minus det første stykke tid. Men jeg er blevet lidt mere konsekvent bare fulgt systemet, og det virker sygt stabilt. Er oppe 20000kr alt i alt nu. Det er første gang jeg føler jeg faktisk har knækket koden til livet 😊",
+    name: "Mathias",
+    img: 3,
+    quote:
+      "5500 kr i profit fra 8000 kr på 2 dage er for crazy 😳 11 ud af 13 vundet sidste 2 dage.",
     stars: 5,
-    gradient: "from-amber-500/20 to-orange-500/20"
+    gradient: "from-amber-500/20 to-orange-500/20",
   },
   {
-    name: "Michael",
-    quote: "Føler jeg har fundet en cheat code😂 Value Profits Business er 15000 kr i plus på en måned ca., og det eneste jeg har gjort er at følge systemet og holde mig til planen. Jeg har seriøst aldrig tjent penge på betting før – nu føles det som en forretning. Tak legend 🙏",
+    name: "Frederik",
+    img: 4,
+    quote:
+      "16 dage, 90 spil, 50k bankroll, 46% ROI og 23.000 lapper lige ned i min lomme hehe. 😏 Godt nok over dobbelt min forventet værdi, så det kan gå nedad, men det køre skide godt. Jeg brokker ikke 😆 ",
     stars: 5,
-    gradient: "from-green-500/20 to-emerald-500/20"
+    gradient: "from-green-500/20 to-emerald-500/20",
   },
   {
-    name: "Elias",
-    quote: "Bro jeg er nødt til lige at sige tak – satte 15k ind i sidste uge og er allerede oppe med over 4.500 kr 🔥. Det er fuldstændig vanvittigt hvor smooth det kører når man bare følger systemet og ikke panikker. Tænkte bare jeg ville give lidt credit, for det her er det første jeg har prøvet hvor det faktisk giver mening!",
+    name: "Filip",
+    img: 5,
+    quote:
+      "Har brugt lidt på noget restaurant med kæresten og forsikring osv. Men har ca. tjent lidt over 5–6 tusind på de her 14 dage. Udover de 28 tusind i alt ish. Altså med jeres system har jeg tjent lidt over 40 tusind i alt 🙆‍♀️",
     stars: 5,
-    gradient: "from-violet-500/20 to-fuchsia-500/20"
+    gradient: "from-violet-500/20 to-fuchsia-500/20",
   },
   {
     name: "Amalie",
-    quote: "Hey, kan du tro. Jeg var egentlig ret skeptisk i starten – jeg har aldrig spillet på sport før og troede det kun var for drenge 😂. Men jeg satte 5000 kr ind da jeg startede, nu er jeg oppe over 6.500 kr i plus bare ved at følge jeres system. Jeg forstår stadig ikke alt i dybden, men det er SÅ nemt at følge – og det føles faktisk trygt fordi der styr på det. Jeg har aldrig tjent penge på den her måde før – det føles næsten som snydt haha. Tak for at vise at det🔥🔥\n\nKnus Amalie",
+    img: 6,
+    quote:
+      "Hey, kan du tro. Jeg var egentlig ret skeptisk i starten – jeg har aldrig spillet på sport før og troede det kun var for drenge 😂. Men jeg satte 5000 kr ind da jeg startede, nu er jeg oppe over 6.500 kr i plus bare ved at følge jeres system. Jeg forstår stadig ikke alt i dybden, men det er SÅ nemt at følge – og det føles faktisk trygt fordi der styr på det. Jeg har aldrig tjent penge på den her måde før – det føles næsten som snydt haha. Tak for at vise at det🔥🔥\n\nKnus Amalie",
     stars: 5,
-    gradient: "from-pink-500/20 to-rose-500/20"
-  }
+    gradient: "from-pink-500/20 to-rose-500/20",
+  },
 ];
 
 export default function TestimonialCards() {
@@ -58,14 +70,17 @@ export default function TestimonialCards() {
               key={index}
               className="relative bg-[var(--panel)] p-6 rounded-xl border border-[var(--line)] hover:border-[rgba(71,250,190,0.3)] transition-all duration-300 hover:transform hover:scale-[1.02] flex flex-col group"
               style={{
-                boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+                boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
               }}
             >
               {/* Accent top border on hover */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--accent)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-xl"></div>
 
               {/* Stars */}
-              <div className="flex gap-1 mb-4" aria-label={`${testimonial.stars} stars`}>
+              <div
+                className="flex gap-1 mb-4"
+                aria-label={`${testimonial.stars} stars`}
+              >
                 {[...Array(testimonial.stars)].map((_, i) => (
                   <svg
                     key={i}
@@ -90,9 +105,11 @@ export default function TestimonialCards() {
               <footer className="mt-6 pt-4 border-t border-[var(--line)]">
                 <cite className="not-italic">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--accent)]/20 to-[var(--accent)]/10 border border-[var(--accent)]/30 flex items-center justify-center text-[var(--accent)] font-bold text-sm">
-                      {testimonial.name.charAt(0)}
-                    </div>
+                    <img
+                      src={`/images/members/${testimonial.img}.png`}
+                      alt={`${testimonial.name}`}
+                      className="w-10 h-10 rounded-full object-cover border border-[var(--accent)]/30"
+                    />
                     <div>
                       <div className="font-semibold text-[var(--ink)]">
                         {testimonial.name}

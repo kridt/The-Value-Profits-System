@@ -1,15 +1,14 @@
 import React from "react";
 
-// Avatar data with initials (using stock/placeholder approach)
+// Avatar data with member images
 const members = [
-  { name: "Andreas M.", initials: "AM", color: "from-blue-500 to-cyan-500" },
-  { name: "Sarah K.", initials: "SK", color: "from-pink-500 to-rose-500" },
-  { name: "Michael J.", initials: "MJ", color: "from-purple-500 to-indigo-500" },
-  { name: "Emma L.", initials: "EL", color: "from-amber-500 to-orange-500" },
-  { name: "Daniel P.", initials: "DP", color: "from-green-500 to-emerald-500" },
-  { name: "Sophie N.", initials: "SN", color: "from-violet-500 to-fuchsia-500" },
-  { name: "Lucas R.", initials: "LR", color: "from-teal-500 to-cyan-500" },
-  { name: "Isabella T.", initials: "IT", color: "from-red-500 to-pink-500" },
+  { name: "Andreas M.", image: "/images/members/1.png" },
+  { name: "Sarah K.", image: "/images/members/2.png" },
+  { name: "Michael J.", image: "/images/members/3.png" },
+  { name: "Emma L.", image: "/images/members/4.png" },
+  { name: "Daniel P.", image: "/images/members/5.png" },
+  { name: "Sophie N.", image: "/images/members/6.png" },
+  { name: "Lucas R.", image: "/images/members/7.png" },
 ];
 
 export default function HeroWithAvatars() {
@@ -19,13 +18,13 @@ export default function HeroWithAvatars() {
       <div className="flex items-center justify-center gap-3 mb-6">
         <div className="flex -space-x-3">
           {members.map((member, i) => (
-            <div
+            <img
               key={i}
-              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br ${member.color} border-2 border-[var(--bg)] flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-lg hover:scale-110 transition-transform cursor-pointer`}
+              src={member.image}
+              alt={member.name}
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-[var(--bg)] shadow-lg hover:scale-110 transition-transform cursor-pointer object-cover"
               title={member.name}
-            >
-              {member.initials}
-            </div>
+            />
           ))}
         </div>
         <div className="text-[var(--ink-2)] text-sm sm:text-base ml-2">
