@@ -9,9 +9,9 @@ export default function VideoGate({
   const validUrl = useMemo(() => String(videoUrl || "").trim(), [videoUrl]);
 
   return (
-    <div className="relative w-full">
-      {/* Mobil: 9:16; >=sm: 16:9 */}
-      <div className="relative w-full aspect-[9/16] sm:aspect-[16/9] rounded-xl overflow-hidden">
+    <div className="relative w-full mx-2 sm:mx-0">
+      {/* Mobil: 16:9; >=sm: 16:9 */}
+      <div className="relative w-full aspect-[16/9] rounded-lg sm:rounded-xl overflow-hidden">
         <iframe
           src={validUrl}
           title="VPS video"
