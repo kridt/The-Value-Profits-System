@@ -4,22 +4,25 @@ export default function HowItWorks() {
   const steps = [
     {
       number: "1",
-      icon: "📊",
+      icon: " ",
       title: "Lær value betting strategien",
-      description: "Få adgang til vores omfattende kursus der lærer dig at identificere +EV (positive forventningsværdi) væddemål, hvor odds er højere end den faktiske sandsynlighed."
+      description:
+        "Få adgang til vores omfattende kursus der lærer dig at identificere +EV (positive forventningsværdi) væddemål, hvor odds er højere end den faktiske sandsynlighed.",
     },
     {
       number: "2",
-      icon: "🎯",
+      icon: " ",
       title: "Brug vores værktøjer & community",
-      description: "Få adgang til vores Skool community med daglige bet-forslag, analyseværktøjer og støtte fra erfarne medlemmer der allerede tjener penge."
+      description:
+        "Få adgang til vores Skool community med daglige bet-forslag, analyseværktøjer og støtte fra erfarne medlemmer der allerede tjener penge.",
     },
     {
       number: "3",
-      icon: "💰",
+      icon: " ",
       title: "Byg din bankroll disciplineret",
-      description: "Følg systemet med disciplineret bankroll management og se din saldo vokse over tid. Vi dokumenterer hver eneste bet for fuld gennemsigtighed."
-    }
+      description:
+        "Følg systemet med disciplineret bankroll management og se din saldo vokse over tid. Vi dokumenterer hver eneste bet for fuld gennemsigtighed.",
+    },
   ];
 
   return (
@@ -47,9 +50,7 @@ export default function HowItWorks() {
       </div>
 
       <div className="mt-10 text-center">
-        <p className="text-[var(--ink-2)] mb-4">
-          Klar til at komme i gang?
-        </p>
+        <p className="text-[var(--ink-2)] mb-4">Klar til at komme i gang?</p>
         <a
           href="https://calendly.com/vpsystem1/30min"
           target="_blank"

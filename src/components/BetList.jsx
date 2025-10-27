@@ -277,7 +277,7 @@ export default function BetList() {
                   %
                 </div>
 
-                <div className="text-[var(--ink-2)]">ROI %</div>
+                <div className="text-[var(--ink-2)]">Vækst i %</div>
                 <div className="font-semibold text-accent">
                   {roiPct.toFixed(1)}%
                 </div>
