@@ -43,7 +43,7 @@ export default function Nav() {
           href="https://calendly.com/vpsystem1/30min"
           target="_blank"
           rel="noreferrer"
-          className="hidden md:inline-flex btn-accent"
+          className="hidden md:inline-flex btn-accent text-sm px-3 py-1.2"
         >
           Book afklaringsmøde
         </a>

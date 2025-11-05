@@ -15,6 +15,7 @@ import {
   faqSchema,
 } from "../utils/schema";
 import { Link } from "react-router-dom";
+import HeroWithStatsCountUp from "../components/HeroWithStatsCountUp";
 
 export default function Home() {
   const combinedSchema = {
@@ -38,10 +39,10 @@ export default function Home() {
 
             {/* Main Headline */}
             <h1 className="h1 mb-6">
-              Lær <span className="glow-accent">Value Betting</span>
+              Skab en <span className="glow-accent">Stabil indkomst</span>
               <br />
               <span className="text-[var(--ink)]">
-                og tjen penge på sportsbetting
+                gennem et system, der udnytter fejl i det globale marked
               </span>
             </h1>
 
@@ -106,22 +107,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Trust indicators */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-[var(--ink-2)]">
-              <div className="flex items-center gap-2">
-                <span className="text-[var(--accent)]">✓</span>
-                <span>Dokumenterede resultater</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[var(--accent)]">✓</span>
-                <span>Penge-tilbage garanti</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[var(--accent)]">✓</span>
-                <span>Gratis community adgang</span>
-              </div>
-            </div>
-
             <div className="mt-12 divider" />
           </div>
         </section>
@@ -147,7 +132,7 @@ export default function Home() {
           <BetList />
         </section>
         {/* REAL RESULTS SHOWCASE */}
-        <section className="container-xl pt-16 relative z-10">
+        {/* <section className="container-xl pt-16 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-8">
             <h2 className="h2 glow-accent">Dokumenterede resultater</h2>
             <p className="mt-3 text-[var(--ink-2)]">
@@ -164,7 +149,9 @@ export default function Home() {
               height="800"
             />
           </div>
-        </section>
+        </section> */}
+
+        <HeroWithStatsCountUp />
 
         {/* FAQ + CTA */}
         <section className="container-xl pt-16 relative z-10">

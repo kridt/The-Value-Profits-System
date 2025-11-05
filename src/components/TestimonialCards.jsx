@@ -57,11 +57,8 @@ export default function TestimonialCards() {
       <div className="container-xl">
         <div className="text-center mb-12">
           <h2 id="testimonials-heading" className="h2 glow-accent mb-4">
-            DET VIRKER - NO BULLSHIT
+            De tog chancen. Se, hvad der skete.
           </h2>
-          <p className="text-[var(--ink-2)] text-lg">
-            Kræver du følger systemet
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -20,6 +20,7 @@ const availableMonths = [
   { label: "August", sheet: "August" },
   { label: "September", sheet: "September" },
   { label: "Oktober", sheet: "Oktober" },
+  { label: "November", sheet: "November" },
 ];
 
 /** Hjælpere */

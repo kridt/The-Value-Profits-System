@@ -5,23 +5,23 @@ export default function HowItWorks() {
     {
       number: "1",
       icon: " ",
-      title: "Lær value betting strategien",
+      title: "Du har måske prøvet at oddse før ",
       description:
-        "Få adgang til vores omfattende kursus der lærer dig at identificere +EV (positive forventningsværdi) væddemål, hvor odds er højere end den faktiske sandsynlighed.",
+        "Men endte med at tabe penge. I Value Profits handler det ikke om held, men om at forstå og udnytte fejl i markedet.",
     },
     {
       number: "2",
       icon: " ",
-      title: "Brug vores værktøjer & community",
+      title: "Du vil skabe en ekstra indkomst",
       description:
-        "Få adgang til vores Skool community med daglige bet-forslag, analyseværktøjer og støtte fra erfarne medlemmer der allerede tjener penge.",
+        " men uden at skulle sælge, poste content eller overtale nogen. Her får du et system, der arbejder for dig, ikke omvendt.",
     },
     {
       number: "3",
       icon: " ",
-      title: "Byg din bankroll disciplineret",
+      title: "Du stoler mere på data end tilfældigheder",
       description:
-        "Følg systemet med disciplineret bankroll management og se din saldo vokse over tid. Vi dokumenterer hver eneste bet for fuld gennemsigtighed.",
+        "og du ved, at logik altid vinder over held. Her får du en struktureret model, hvor tal og disciplin bestemmer resultatet.",
     },
   ];
 
