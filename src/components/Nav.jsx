@@ -16,13 +16,24 @@ export default function Nav() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          <a href="#video" className="link-accent hover:text-[var(--accent)] transition-colors">
+          <a
+            href="#video"
+            className="link-accent hover:text-[var(--accent)] transition-colors"
+          >
             Se demo
           </a>
-          <a href="https://www.skool.com/the-value-profits-system/about" target="_blank" rel="noreferrer" className="link-accent hover:text-[var(--accent)] transition-colors">
+          <a
+            href="https://www.skool.com/the-value-profits-system/about"
+            target="_blank"
+            rel="noreferrer"
+            className="link-accent hover:text-[var(--accent)] transition-colors"
+          >
             Gratis community
           </a>
-          <a href="#testimonials" className="link-accent hover:text-[var(--accent)] transition-colors">
+          <a
+            href="#testimonials"
+            className="link-accent hover:text-[var(--accent)] transition-colors"
+          >
             Anmeldelser
           </a>
         </div>
@@ -34,7 +45,7 @@ export default function Nav() {
           rel="noreferrer"
           className="hidden md:inline-flex btn-accent"
         >
-          Book gratis demo
+          Book afklaringsmøde
         </a>
 
         {/* Mobile menu button */}
@@ -44,12 +55,34 @@ export default function Nav() {
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           )}
         </button>
@@ -88,7 +121,7 @@ export default function Nav() {
               rel="noreferrer"
               className="btn-accent mt-2 text-center"
             >
-              Book gratis demo
+              Book afklaringsmøde
             </a>
           </div>
         </div>
