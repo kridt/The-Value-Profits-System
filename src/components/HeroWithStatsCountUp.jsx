@@ -27,8 +27,8 @@ export default function HeroWithStatsCountUp() {
       {
         id: "reviews",
         prefix: "+",
-        value: 2,
-        suffix: " mio kr.",
+        value: 10000000,
+        suffix: " kr.",
         label: "Omsat gennem vores strategi",
       },
       {

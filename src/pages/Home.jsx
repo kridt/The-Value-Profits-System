@@ -38,11 +38,12 @@ export default function Home() {
             <HeroWithAvatars />
 
             {/* Main Headline */}
-            <h1 className="h1 mb-6">
+            <h1 className="h2 mb-6">
               Skab en <span className="glow-accent">Stabil indkomst</span>
               <br />
               <span className="text-[var(--ink)]">
-                gennem et system, der udnytter fejl i det globale marked
+                gennem et system, der udnytter{" "}
+                <span className="glow-accent">fejl</span> i det globale marked
               </span>
             </h1>
 
@@ -150,8 +151,10 @@ export default function Home() {
             />
           </div>
         </section> */}
-
-        <HeroWithStatsCountUp />
+        <div className="text-center">
+          <h2 className="h2 glow-accent mt-9 mb-9">Lidt om os</h2>
+          <HeroWithStatsCountUp />
+        </div>
 
         {/* FAQ + CTA */}
         <section className="container-xl pt-16 relative z-10">
