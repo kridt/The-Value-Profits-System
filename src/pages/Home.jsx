@@ -38,12 +38,11 @@ export default function Home() {
             <HeroWithAvatars />
 
             {/* Main Headline */}
-            <h1 className="h2 mb-6">
-              Skab en <span className="glow-accent">Stabil indkomst</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+              Skab en <span className="glow-accent">Stabil indkomst</span> <span className="text-[var(--ink)]">gennem et system,</span>
               <br />
               <span className="text-[var(--ink)]">
-                gennem et system, der udnytter{" "}
-                <span className="glow-accent">fejl</span> i det globale marked
+                der udnytter <span className="glow-accent">fejl </span>i det globale marked
               </span>
             </h1>
 
