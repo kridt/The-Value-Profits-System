@@ -39,9 +39,9 @@ export default function Home() {
 
             {/* Main Headline */}
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-center md:w-[70vw] md:max-w-none md:mx-auto md:left-1/2 md:relative md:-translate-x-1/2">
-              <span className="md:whitespace-nowrap">Skab en <span className="glow-accent">Stabil indkomst</span> <span className="text-[var(--ink)]">gennem et system,</span></span>
+              <span className="md:inline-block md:whitespace-nowrap">Skab en <span className="glow-accent">Stabil indkomst</span> <span className="text-[var(--ink)]">gennem et system,</span></span>
               <br className="md:block hidden" />
-              <span className="text-[var(--ink)] md:whitespace-nowrap">
+              <span className="text-[var(--ink)] md:inline-block md:whitespace-nowrap">
                 der udnytter <span className="glow-accent">fejl </span>i det globale marked
               </span>
             </h1>
