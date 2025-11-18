@@ -25,7 +25,7 @@ export default function SkoolCommunity() {
   ];
 
   return (
-    <section className="container-xl pt-16 md:pt-20 relative z-10">
+    <section className="container-xl pt-8 md:pt-12 relative z-10">
       <div className="max-w-5xl mx-auto">
         <div className="card-accent p-8 md:p-10">
           <div className="grid md:grid-cols-2 gap-8 items-center">

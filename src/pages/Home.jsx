@@ -56,7 +56,7 @@ export default function Home() {
             </p>
 
             {/* VIDEO GATE */}
-            <section id="video" className="container-xl pt-8 relative z-10">
+            <section id="video" className="container-xl pt-4 md:pt-6 relative z-10">
               {/* <div className="max-w-3xl mx-auto text-center mb-8">
               <h2 className="h2 glow-accent">Se systemet i aktion</h2>
               <p className="mt-3 text-[var(--ink-2)]">
@@ -82,7 +82,7 @@ export default function Home() {
               </a>
             </div>
             {/* Social proof badges */}
-            <div className="mt-10 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+            <div className="mt-6 md:mt-8 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-black glow-accent">
                   1000+
@@ -107,7 +107,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-12 divider" />
+            <div className="mt-6 md:mt-10 divider" />
           </div>
         </section>
 
@@ -115,17 +115,17 @@ export default function Home() {
         <HowItWorks />
 
         {/* TESTIMONIALS - New Design */}
-        <section id="testimonials" className="container-xl pt-16 relative z-10">
+        <section id="testimonials" className="container-xl pt-8 md:pt-12 relative z-10">
           <TestimonialCards />
         </section>
 
         <div className="text-center">
-          <h2 className="h2 glow-accent mt-9 mb-9">Lidt om os</h2>
+          <h2 className="h2 glow-accent mt-6 md:mt-8 mb-6 md:mb-8">Lidt om os</h2>
           <HeroWithStatsCountUp />
         </div>
 
         {/* PERFORMANCE / BETLIST */}
-        <section className="container-xl pt-16 relative z-10">
+        <section className="container-xl pt-8 md:pt-12 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-8">
             <h2 className="h2 glow-accent">Performance & gennemsigtighed</h2>
             <p className="mt-3 text-[var(--ink-2)]">
@@ -158,7 +158,7 @@ export default function Home() {
         <SkoolCommunity />
 
         {/* FAQ + CTA */}
-        <section className="container-xl pt-16 relative z-10">
+        <section className="container-xl pt-8 md:pt-12 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-8">
             <h2 className="h2 glow-accent">Ofte stillede spørgsmål</h2>
             <p className="mt-3 text-[var(--ink-2)]">
@@ -168,7 +168,7 @@ export default function Home() {
           <FAQ />
 
           {/* Final CTA */}
-          <div className="mt-16 max-w-3xl mx-auto">
+          <div className="mt-8 md:mt-12 max-w-3xl mx-auto">
             <div className="card-accent p-8 md:p-10 text-center">
               <h3 className="h2 mb-4">Klar til at komme i gang?</h3>
               <p className="text-lg text-[var(--ink-2)] mb-6 max-w-xl mx-auto">

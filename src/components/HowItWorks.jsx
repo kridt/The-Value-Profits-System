@@ -26,7 +26,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="container-xl pt-16 md:pt-20 relative z-10">
+    <section className="container-xl pt-8 md:pt-12 relative z-10">
       <div className="max-w-3xl mx-auto text-center mb-10">
         <h2 className="h2 glow-accent">Er det her dig?</h2>
         <p className="mt-3 text-lg text-[var(--ink-2)]">
@@ -57,7 +57,7 @@ export default function HowItWorks() {
           rel="noreferrer"
           className="btn-accent"
         >
-          Book gratis demo samtale
+          Book en gratis samtale her
         </a>
       </div>
     </section>
