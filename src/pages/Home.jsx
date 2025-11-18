@@ -32,13 +32,13 @@ export default function Home() {
         <div className="bg-glow bottom-24 right-0"></div>
 
         {/* HERO */}
-        <section className="container-xl pt-8 md:pt-20 relative z-10">
+        <section className="container-xl pt-8 md:pt-12 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             {/* Hero with Avatars */}
             <HeroWithAvatars />
 
             {/* Main Headline */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-center md:w-[70vw] md:max-w-none md:mx-auto md:left-1/2 md:relative md:-translate-x-1/2">
               Skab en <span className="glow-accent">Stabil indkomst</span> <span className="text-[var(--ink)]">gennem et system,</span>
               <br />
               <span className="text-[var(--ink)]">

@@ -1,27 +1,56 @@
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 
 /**
- * Simple video player component without gate
+ * Vidalytics video player component
  */
-export default function VideoGate({
-  videoUrl = "https://player.vimeo.com/video/1098616437?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479",
-}) {
-  const validUrl = useMemo(() => String(videoUrl || "").trim(), [videoUrl]);
+export default function VideoGate() {
+  useEffect(() => {
+    // Load Vidalytics script
+    (function (v, i, d, a, l, y, t, c, s) {
+      y = '_' + d.toLowerCase();
+      c = d + 'L';
+      if (!v[d]) { v[d] = {}; }
+      if (!v[c]) { v[c] = {}; }
+      if (!v[y]) { v[y] = {}; }
+      var vl = 'Loader', vli = v[y][vl], vsl = v[c][vl + 'Script'], vlf = v[c][vl + 'Loaded'], ve = 'Embed';
+      if (!vsl) {
+        vsl = function (u, cb) {
+          if (t) { cb(); return; }
+          s = i.createElement("script");
+          s.type = "text/javascript";
+          s.async = 1;
+          s.src = u;
+          if (s.readyState) {
+            s.onreadystatechange = function () {
+              if (s.readyState === "loaded" || s.readyState == "complete") {
+                s.onreadystatechange = null;
+                vlf = 1;
+                cb();
+              }
+            };
+          } else {
+            s.onload = function () { vlf = 1; cb(); };
+          }
+          i.getElementsByTagName("head")[0].appendChild(s);
+        };
+      }
+      vsl(l + 'loader.min.js', function () {
+        if (!vli) {
+          var vlc = v[c][vl];
+          vli = new vlc();
+        }
+        vli.loadScript(l + 'player.min.js', function () {
+          var vec = v[d][ve];
+          t = new vec();
+          t.run(a);
+        });
+      });
+    })(window, document, 'Vidalytics', 'vidalytics_embed_QYzwofhHdx4N4X5U', 'https://fast.vidalytics.com/embeds/00G3LN3A/QYzwofhHdx4N4X5U/');
+  }, []);
 
   return (
     <div className="relative w-full mx-2 sm:mx-0">
-      {/* Mobil: 16:9; >=sm: 16:9 */}
-      <div className="relative w-full aspect-[16/9] rounded-lg sm:rounded-xl overflow-hidden">
-        <iframe
-          src={validUrl}
-          title="VPS video"
-          width="100%"
-          height="100%"
-          style={{ border: "none", position: "absolute", inset: 0 }}
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
+      <div id="vidalytics_embed_QYzwofhHdx4N4X5U" style={{ width: '100%', position: 'relative', paddingTop: '56.25%' }}></div>
     </div>
   );
 }
