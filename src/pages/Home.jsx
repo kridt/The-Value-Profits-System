@@ -56,7 +56,7 @@ export default function Home() {
             </p>
 
             {/* VIDEO GATE */}
-            <section id="video" className="container-xl pt-16 relative z-10">
+            <section id="video" className="container-xl pt-8 relative z-10">
               {/* <div className="max-w-3xl mx-auto text-center mb-8">
               <h2 className="h2 glow-accent">Se systemet i aktion</h2>
               <p className="mt-3 text-[var(--ink-2)]">
@@ -71,7 +71,7 @@ export default function Home() {
             </section>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 scale-75 ">
+            <div className="-mt-4 flex flex-col sm:flex-row items-center justify-center gap-4 scale-[1.125]">
               <a
                 href="https://calendly.com/vpsystem1/30min"
                 target="_blank"

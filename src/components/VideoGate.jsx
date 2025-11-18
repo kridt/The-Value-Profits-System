@@ -49,7 +49,7 @@ export default function VideoGate() {
   }, []);
 
   return (
-    <div className="relative w-full mx-2 sm:mx-0">
+    <div className="relative w-full">
       <div id="vidalytics_embed_QYzwofhHdx4N4X5U" style={{ width: '100%', position: 'relative', paddingTop: '56.25%' }}></div>
     </div>
   );
