@@ -114,13 +114,16 @@ export default function Home() {
         {/* HOW IT WORKS */}
         <HowItWorks />
 
-        {/* SKOOL COMMUNITY */}
-        <SkoolCommunity />
-
         {/* TESTIMONIALS - New Design */}
         <section id="testimonials" className="container-xl pt-16 relative z-10">
           <TestimonialCards />
         </section>
+
+        <div className="text-center">
+          <h2 className="h2 glow-accent mt-9 mb-9">Lidt om os</h2>
+          <HeroWithStatsCountUp />
+        </div>
+
         {/* PERFORMANCE / BETLIST */}
         <section className="container-xl pt-16 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-8">
@@ -150,10 +153,9 @@ export default function Home() {
             />
           </div>
         </section> */}
-        <div className="text-center">
-          <h2 className="h2 glow-accent mt-9 mb-9">Lidt om os</h2>
-          <HeroWithStatsCountUp />
-        </div>
+
+        {/* SKOOL COMMUNITY */}
+        <SkoolCommunity />
 
         {/* FAQ + CTA */}
         <section className="container-xl pt-16 relative z-10">
