@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Nav from "./components/Nav";
+import { Analytics } from "@vercel/analytics/react";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home"));
@@ -34,6 +35,7 @@ export default function App() {
           </main>
         </Suspense>
       </Router>
+      <Analytics />
     </div>
   );
 }
