@@ -71,14 +71,14 @@ export default function Home() {
             </section>
 
             {/* CTA Buttons */}
-            <div className="-mt-4 flex flex-col sm:flex-row items-center justify-center gap-4 scale-[1.125]">
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 scale-75 md:scale-[1.125]">
               <a
                 href="https://calendly.com/vpsystem1/30min"
                 target="_blank"
                 rel="noreferrer"
                 className="btn-accent text-lg px-6 py-3"
               >
-                Book afklaringsmøde
+                Se om det giver mening for dig?
               </a>
             </div>
             {/* Social proof badges */}
