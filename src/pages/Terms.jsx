@@ -40,7 +40,7 @@ export default function Terms() {
         <p className="mb-4">
           Kurset er skabt med udgangspunkt i de erfaringer, mit team og jeg har
           tillært os igennem de sidste år og er inspiration til, hvordan du kan
-          komme i gang med at afholde succesfulde online events.
+          komme i gang.
         </p>
         <p className="mb-4">
           Det er alene dig, der har købt adgang til kurset, der må benytte dig
