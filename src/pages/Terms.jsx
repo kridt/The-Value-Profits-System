@@ -209,6 +209,13 @@ export default function Terms() {
           forbeholder sig retten til at tage retslige skridt i henhold til dansk
           lovgivning.
         </p>
+
+        <p>
+        Kunden køber adgang til det digitale kursus The Value Profits Protocol, som består af videomoduler, ressourcer, supportmateriale udleveret via lukket online platform.
+
+Adgangen er personlig og må udelukkende anvendes af Kunden. Det er alene tilladt at benytte egne konti oprettet i Kundens eget navn, medmindre andet er forudgående aftalt skriftligt med udbyderen. Adgangen må ikke deles, kopieres eller videreformidles.
+
+Ved overtrædelse betragtes dette som væsentlig misligholdelse, og adgangen lukkes øjeblikkeligt uden kompensation. Udbyderen forbeholder sig retten til at gøre krav gældende for brud på aftale og ophavsret.</p>
       </section>
 
       {/* 7. Reklamation */}
