@@ -90,7 +90,7 @@ export default function BetList() {
   const log = (...a) => dref.current && console.log("[BetList]", ...a);
 
   useEffect(() => {
-    const s = Math.max(1, Math.round((+bankroll || 0) * 0.04));
+    const s = Math.max(1, Math.round((+bankroll || 0) * 0.03));
     setStake(s);
   }, [bankroll]);
 
