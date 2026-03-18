@@ -8,7 +8,7 @@ import React from "react";
  */
 export default function Terms() {
   return (
-    <div className="mx-auto max-w-3xl p-6 leading-relaxed text-slate-900 max-md:text-[#f7f8f9]">
+    <div className="mx-auto max-w-3xl p-6 leading-relaxed text-[#f7f8f9]">
       <header className="mb-8 space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">
           SALGS- OG LEVERINGSBETINGELSER
