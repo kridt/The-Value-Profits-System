@@ -77,7 +77,7 @@ const kr = (n) =>
   }).format(Math.round(n));
 
 export default function BetList() {
-  const [selectedMonth, setSelectedMonth] = useState("September");
+  const [selectedMonth, setSelectedMonth] = useState("Alle");
   const [bankroll, setBankroll] = useState(10000);
   const [stake, setStake] = useState(400);
   const [bets, setBets] = useState([]);
