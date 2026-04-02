@@ -327,7 +327,7 @@ export default function BetList() {
                     <YAxis
                       stroke="#8b929a"
                       tick={{ fill: "#8b929a", fontSize: 12 }}
-                      domain={["auto", "auto"]}
+                      domain={["dataMin", "dataMax"]}
                     />
                     <Tooltip
                       contentStyle={{
