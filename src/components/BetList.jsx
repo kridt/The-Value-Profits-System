@@ -348,7 +348,7 @@ export default function BetList() {
                       strokeDasharray="6 6"
                     />
                     <Line
-                      type="monotone"
+                      type="linear"
                       dataKey="saldo"
                       stroke="#47FABE"
                       strokeWidth={2.5}
