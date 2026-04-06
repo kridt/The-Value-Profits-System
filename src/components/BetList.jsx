@@ -81,7 +81,7 @@ export default function BetList() {
   const [bankroll, setBankroll] = useState(10000);
   const [stake, setStake] = useState(400);
   const [bets, setBets] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [debug, setDebug] = useState(false);

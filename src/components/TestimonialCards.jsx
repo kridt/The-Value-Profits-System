@@ -53,14 +53,8 @@ const testimonialsData = [
 
 export default function TestimonialCards() {
   return (
-    <section className="py-16 relative" aria-labelledby="testimonials-heading">
+    <section className="py-16 relative">
       <div className="container-xl">
-        <div className="text-center mb-12">
-          <h2 id="testimonials-heading" className="h2 glow-accent mb-4">
-            De tog chancen. Se, hvad der skete.
-          </h2>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonialsData.map((testimonial, index) => (
             <article

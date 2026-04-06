@@ -86,7 +86,7 @@ export default function Home() {
             <div className="mt-6 md:mt-8 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-black glow-accent">
-                  1000+
+                  1600+
                 </div>
                 <div className="text-sm text-[var(--muted)] mt-1">
                   Aktive medlemmer
@@ -115,9 +115,32 @@ export default function Home() {
         {/* HOW IT WORKS */}
         <HowItWorks />
 
-        {/* TESTIMONIALS - New Design */}
-        <section id="testimonials" className="container-xl pt-8 md:pt-12 relative z-10">
-          <TestimonialCards />
+        {/* INTERVIEW TESTIMONIALS */}
+        <section className="container-xl pt-8 md:pt-12 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-8">
+            <h2 className="h2 glow-accent">De tog chancen. Se, hvad der skete.</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              "ydZtkbFdZiU",
+              "tbRX6kVjg_k",
+              "_2t7Eh7cZ28",
+              "yqEog9O9xIw",
+              "UkKf1zk704c",
+              "qLv59zF9CLQ",
+            ].map((id) => (
+              <div key={id} className="rounded-xl overflow-hidden aspect-video">
+                <iframe
+                  src={`https://www.youtube.com/embed/${id}`}
+                  title={`Interview ${id}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
         </section>
 
         <div className="text-center">
@@ -135,6 +158,7 @@ export default function Home() {
           </div>
           <BetList />
         </section>
+
         {/* REAL RESULTS SHOWCASE */}
         {/* <section className="container-xl pt-16 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-8">
@@ -157,6 +181,14 @@ export default function Home() {
 
         {/* SKOOL COMMUNITY */}
         <SkoolCommunity />
+
+        {/* TESTIMONIALS */}
+        <section id="testimonials" className="container-xl pt-8 md:pt-12 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-8">
+            <h2 className="h2 glow-accent">Hør flere historier inde på skool.</h2>
+          </div>
+          <TestimonialCards />
+        </section>
 
         {/* FAQ + CTA */}
         <section className="container-xl pt-8 md:pt-12 relative z-10">

@@ -5,7 +5,7 @@ export default function SkoolCommunity() {
     {
       icon: "💬",
       title: "Aktiv community",
-      description: "Få adgang til vores Skool gruppe med 1000+ medlemmer",
+      description: "Få adgang til vores Skool gruppe med 1600+ medlemmer",
     },
     {
       icon: "🎓",
@@ -88,7 +88,7 @@ export default function SkoolCommunity() {
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/30 p-8 flex flex-col items-center justify-center text-center">
                 <div className="text-6xl mb-4">🎯</div>
                 <div className="text-4xl md:text-5xl font-black glow-accent mb-2">
-                  1000+
+                  1600+
                 </div>
                 <div className="text-[var(--ink-2)] text-lg mb-4">
                   Aktive medlemmer
